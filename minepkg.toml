@@ -1,0 +1,18 @@
+manifestVersion = 0
+
+[package]
+  type = "mod"
+  name = "minepkg-companion"
+  description = "A helper mod for minepkg"
+  license = "MIT"
+  version = "0.1.0"
+
+[requirements]
+  minecraft = "~1.14.0"
+  fabric = "*"
+
+[dependencies]
+  fabric = "*"
+
+[hooks]
+  build = "./gradlew build"
