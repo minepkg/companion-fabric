@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "me.jasonhaxstuff.minepkgcompanion.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MinePkgCompanionPluginMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

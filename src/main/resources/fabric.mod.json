@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "minepkg-companion",
+  "version": "${version}",
+
+  "name": "minepkg-companion",
+  "description": "Skip the title screen.",
+  "authors": [
+    "jasonhaxstuff"
+  ],
+
+  "license": "MIT",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.jasonhaxstuff.minepkgcompanion.MinePkgCompanion"
+    ]
+  },
+  "mixins": [
+    "minepkg-companion.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
