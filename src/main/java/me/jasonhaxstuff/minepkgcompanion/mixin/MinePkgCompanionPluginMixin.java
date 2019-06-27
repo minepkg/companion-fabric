@@ -30,9 +30,9 @@ public class MinePkgCompanionPluginMixin {
 			MinePkgCompanion.INSTANCE.opened = true;
 
 			// If it's a local world
-			if (var.toLowerCase().startsWith("singleplayer:")) {
+			if (var.toLowerCase().startsWith("local://")) {
 				// Remove the local world identifier
-				var = var.substring("singleplayer:".length()).toLowerCase();
+				var = var.substring("local://".length()).toLowerCase();
 
 				// If we succeeded in joining the local world
 				if (joinLocalWorld(var)) {
@@ -40,7 +40,13 @@ public class MinePkgCompanionPluginMixin {
 				}
 			}
 
-			// Otherwise join the server
+			// If it's a explicit server
+			if (var.toLowerCase().startsWith("server://")) {
+				// Remove the server identifier
+				var = var.substring("server://".length()).toLowerCase();
+			}
+
+			// Otherwise join the server (implicit)
 			joinServer(var);
 		}
 	}
