@@ -1,10 +1,10 @@
-package me.jasonhaxstuff.minepkgcompanion;
+package io.minepkg.companion;
 
 import net.fabricmc.api.ClientModInitializer;
 
-public class MinePkgCompanion implements ClientModInitializer {
+public class MinepkgCompanion implements ClientModInitializer {
 	public boolean opened = false;
-	public static MinePkgCompanion INSTANCE;
+	public static MinepkgCompanion INSTANCE;
 
 	@Override
 	public void onInitializeClient() {
@@ -13,6 +13,6 @@ public class MinePkgCompanion implements ClientModInitializer {
 		// Proceed with mild caution.
 
 		INSTANCE = this;
-		System.out.println("Started MinePkgCompanion.");
+		System.out.println("Started the minepkg companion.");
 	}
 }

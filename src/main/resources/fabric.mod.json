@@ -15,7 +15,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "me.jasonhaxstuff.minepkgcompanion.MinePkgCompanion"
+      "io.minepkg.companion.MinepkgCompanion"
     ]
   },
   "mixins": [

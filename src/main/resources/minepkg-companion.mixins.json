@@ -1,11 +1,11 @@
 {
   "required": true,
-  "package": "me.jasonhaxstuff.minepkgcompanion.mixin",
+  "package": "io.minepkg.companion.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "MinePkgCompanionPluginMixin"
+    "MinepkgCompanionPluginMixin"
   ],
   "injectors": {
     "defaultRequire": 1

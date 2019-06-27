@@ -1,6 +1,6 @@
-package me.jasonhaxstuff.minepkgcompanion.mixin;
+package io.minepkg.companion.mixin;
 
-import me.jasonhaxstuff.minepkgcompanion.MinePkgCompanion;
+import io.minepkg.companion.MinepkgCompanion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -17,7 +17,7 @@ import java.util.List;
 
 // This lets us work around the title screen
 @Mixin(TitleScreen.class)
-public class MinePkgCompanionPluginMixin {
+public class MinepkgCompanionPluginMixin {
 	// Here, we add our code onto the end of the render method of the title screen (called every tick [or so])
 	@Inject(method = "render", at = @At("RETURN"))
 	private void onRenderTitleScreen (CallbackInfo ci) {
@@ -25,9 +25,9 @@ public class MinePkgCompanionPluginMixin {
 		String var = System.getenv("MINEPKG_COMPANION_PLAY");
 
 		// If we haven't opened the title screen yet and the var exists
-		if (!MinePkgCompanion.INSTANCE.opened && var != null) {
+		if (!MinepkgCompanion.INSTANCE.opened && var != null) {
 			// We opened the title screen
-			MinePkgCompanion.INSTANCE.opened = true;
+			MinepkgCompanion.INSTANCE.opened = true;
 
 			// If it's a local world
 			if (var.toLowerCase().startsWith("local://")) {
