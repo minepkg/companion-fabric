@@ -4,6 +4,12 @@
   "version": "${version}",
   "name": "minepkg-companion",
   "description": "A companion mod for minepkg. It would be lonely without it.",
+  "contact": {
+    "email": "info@minepkg.io",
+    "homepage": "https://minepkg.io/",
+    "issues": "https://github.com/minepkg/fabric-companion/issues",
+    "sources": "https://github.com/minepkg/fabric-companion.git"
+  },
   "authors": [
     "jasonhaxstuff"
   ],
