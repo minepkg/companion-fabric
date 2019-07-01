@@ -3,7 +3,7 @@ manifestVersion = 0
 [package]
   type = "mod"
   name = "minepkg-companion"
-  description = "A helper mod for minepkg"
+  description = "A helper mod for minepkg. It would be lonely without it."
   license = "MIT"
   version = "0.1.0"
 

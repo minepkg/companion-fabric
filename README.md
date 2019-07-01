@@ -2,7 +2,7 @@
 
 This fabric mod connects the minepkg CLI to Minecraft.
 
-It currently enabled minepkg to skip the main menu and immediately join
+It currently enables minepkg to skip the main menu and immediately join
 a server or start a single player session.
 
 
