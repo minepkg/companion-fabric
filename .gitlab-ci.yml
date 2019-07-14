@@ -1,0 +1,10 @@
+test build:
+  # TODO: use minepkg gradle image
+  image: openjdk:8-jdk
+  script:
+  - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
+  - chmod +x /usr/local/bin/minepkg
+  - minepkg build
+  artifacts:
+    paths:
+      - build/libs
