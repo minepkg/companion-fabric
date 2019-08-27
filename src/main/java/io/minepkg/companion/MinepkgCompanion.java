@@ -24,7 +24,6 @@ public class MinepkgCompanion implements ClientModInitializer {
 	 * @return The parsed TOML from the minepkg.toml file. Returns null when the file doesn't exist.
 	 */
 	public static Toml getToml () {
-		// TODO: TEST THIS!!
 		File file = new File("./minepkg.toml");
 
 		if (!file.exists()) {
