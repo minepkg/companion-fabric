@@ -17,7 +17,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.io.IOException;
 
-// Modifies the server response packet class on the client's side
+// Modifies the ClientQueryResponse packet class on the client's side
+// To parse minepkg metadata from ClientQueryResponses (Server List Ping)
 @Mixin(QueryResponseS2CPacket.class)
 public class MixinClientQueryResponseS2CPacket {
     // Copies this property from the original class

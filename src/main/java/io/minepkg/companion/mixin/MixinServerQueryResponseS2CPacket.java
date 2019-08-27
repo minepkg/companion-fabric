@@ -17,7 +17,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.io.IOException;
 
-// Modifies the server response packet class on the server's side
+// Modifies the ClientQueryResponse packet class on the server's side
+// To send extra data containing modpack information
 @Mixin(QueryResponseS2CPacket.class)
 public class MixinServerQueryResponseS2CPacket {
     // Copies this property from the original class
