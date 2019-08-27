@@ -64,6 +64,6 @@ public class MinepkgCompanion implements ClientModInitializer {
 			return null;
 		}
 
-		return new Modpack(modpackName, modpackVersion);
+		return new Modpack(modpackName, modpackVersion, "fabric");
 	}
 }

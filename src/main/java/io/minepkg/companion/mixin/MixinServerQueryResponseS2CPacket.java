@@ -1,7 +1,6 @@
 package io.minepkg.companion.mixin;
 
 import com.google.gson.*;
-import com.moandjiezana.toml.Toml;
 import io.minepkg.companion.CustomServerMetadata;
 import io.minepkg.companion.MinepkgCompanion;
 import io.minepkg.companion.Modpack;
@@ -55,9 +54,9 @@ public class MixinServerQueryResponseS2CPacket {
 
         // Copy the original metadata to the custom metadata and initialize the extra fields of the custom metadata
         customMetadata = new CustomServerMetadata(metadata);
-        customMetadata.modpack = modpack;
+        customMetadata.minepkgModpack = modpack;
 
-        // Convert the custom metadata to JSON and write it to the buffer.
+        // Convert the custom metadata to JSON and write it to the buffer
         buf.writeString(GSON.toJson(customMetadata));
     }
 }

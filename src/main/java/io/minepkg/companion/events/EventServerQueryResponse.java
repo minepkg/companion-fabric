@@ -24,8 +24,8 @@ public class EventServerQueryResponse {
             return;
         }
 
-        if (!modpack.getName().equalsIgnoreCase(metadata.modpack.getName()) ||
-            !modpack.getVersion().equalsIgnoreCase(metadata.modpack.getVersion())) {
+        if (!modpack.getName().equalsIgnoreCase(metadata.minepkgModpack.getName()) ||
+            !modpack.getVersion().equalsIgnoreCase(metadata.minepkgModpack.getVersion())) {
             // Modpacks are different
             // Might render an 'X' by the server name here in the future
             return;

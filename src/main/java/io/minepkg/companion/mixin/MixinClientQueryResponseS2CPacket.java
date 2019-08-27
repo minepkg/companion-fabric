@@ -45,6 +45,7 @@ public class MixinClientQueryResponseS2CPacket {
     @Overwrite
     public void read(PacketByteBuf buf) throws IOException {
         // Read the stringified JSON from the buffer
+        // 32767 is considered the maximum length of the JSON response from the server and 16-bit integers
         String str = buf.readString(32767);
 
         // Parse the JSON
@@ -55,7 +56,7 @@ public class MixinClientQueryResponseS2CPacket {
         metadata = JsonHelper.deserialize(GSON, str, ServerMetadata.class);
 
         // If the data came from a vanilla/non-minepkg-modpack server
-        if (!obj.has("modpack")) {
+        if (!obj.has("minepkgModpack")) {
             // Fire the vanilla/non-minepkg-modpack event (server might have a modpack, but it's not from the minepkg site)
             EventServerQueryResponse.onServerQueryResponse(metadata);
             return;
