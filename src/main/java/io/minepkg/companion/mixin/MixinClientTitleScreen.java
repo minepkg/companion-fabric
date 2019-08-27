@@ -17,8 +17,8 @@ import java.util.List;
 
 // This lets us work around the title screen
 @Mixin(TitleScreen.class)
-public class MinepkgCompanionPluginMixin {
-	// Here, we add our code onto the end of the render method of the title screen (called every tick [or so])
+public class MixinClientTitleScreen {
+	// Here, we add our code onto the end of the render method of the title screen (called many times per second)
 	@Inject(method = "render", at = @At("RETURN"))
 	private void onRenderTitleScreen (CallbackInfo ci) {
 		// Get the env var
@@ -40,13 +40,13 @@ public class MinepkgCompanionPluginMixin {
 				}
 			}
 
-			// If it's a explicit server
+			// If it's an explicit server
 			if (var.toLowerCase().startsWith("server://")) {
 				// Remove the server identifier
 				var = var.substring("server://".length()).toLowerCase();
 			}
 
-			// Otherwise join the server (implicit)
+			// Otherwise join the server (implicit or explicit)
 			joinServer(var);
 		}
 	}
@@ -73,7 +73,7 @@ public class MinepkgCompanionPluginMixin {
 			return false;
 		}
 
-		// If we didn't find the world, try to join a server.
+		// If we didn't find the world, try to join a server
 		return false;
 	}
 
