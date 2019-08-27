@@ -33,6 +33,5 @@ public class EventServerQueryResponse {
 
         // Modpacks match!
         // Might render a check mark by the server name here in the future
-        System.out.println(metadata.modpack.getName() + " - " + metadata.modpack.getVersion());
     }
 }
