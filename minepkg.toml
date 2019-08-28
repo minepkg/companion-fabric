@@ -12,7 +12,7 @@ manifestVersion = 0
   fabric = "*"
 
 [dependencies]
-  fabric = "*"
+  # none
 
 [hooks]
   build = "./gradlew build"
