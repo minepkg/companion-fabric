@@ -4,7 +4,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-    "MinepkgCompanionPluginMixin"
+    "MixinClientTitleScreen",
+    "MixinClientQueryResponseS2CPacket"
+  ],
+  "server": [
+    "MixinServerQueryResponseS2CPacket"
   ],
   "injectors": {
     "defaultRequire": 1

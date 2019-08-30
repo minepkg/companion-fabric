@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "icon": "assets/minepkg-companion/icon.png",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "client": [
       "io.minepkg.companion.MinepkgCompanion"
