@@ -6,7 +6,7 @@ import net.fabricmc.api.ClientModInitializer;
 import java.io.File;
 
 public class MinepkgCompanion implements ClientModInitializer {
-	public static final int MANIFEST_VERSION = 0;
+	public static final int COMPATIBLE_MANIFEST_VERSION = 0;
 
 	public boolean opened = false;
 	public static MinepkgCompanion INSTANCE;
@@ -53,7 +53,7 @@ public class MinepkgCompanion implements ClientModInitializer {
 		String modpackName = manifest.getString("package.name");
 		String modpackVersion = manifest.getString("package.version");
 
-		if (manifestVersion == null || manifestVersion != MANIFEST_VERSION) {
+		if (manifestVersion == null || manifestVersion != COMPATIBLE_MANIFEST_VERSION) {
 			// Invalid manifest version
 			return null;
 		}
