@@ -30,7 +30,13 @@ public class EventServerQueryResponse {
         if (!modpack.getName().equalsIgnoreCase(modpackName) ||
             !modpack.getVersion().equalsIgnoreCase(modpackVersion)) {
             // Modpacks are different
-            // Might render an 'X' by the server name here in the future
+            // Make Minecraft think that the server is out of date with a protocol version of -1
+            // It will then display the game version in red by the server name
+            String gameVersion = "Modpack: " + modpackName + "@" + modpackVersion;
+            ServerMetadata.Version version =
+                    new ServerMetadata.Version(gameVersion, -1);
+            metadata.setVersion(version);
+
             return;
         }
 
