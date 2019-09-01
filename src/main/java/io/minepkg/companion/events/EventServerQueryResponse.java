@@ -16,7 +16,7 @@ public class EventServerQueryResponse {
     /**
      * Called whenever a minepkg-modded server responds with information about the server and modpack.
      */
-    public static void onServerQueryResponse (CustomServerMetadata metadata) {
+    public static void onCustomServerQueryResponse (CustomServerMetadata customMetadata, ServerMetadata metadata) {
         Modpack modpack = MinepkgCompanion.getModpack();
 
         if (modpack == null) {
@@ -24,10 +24,18 @@ public class EventServerQueryResponse {
             return;
         }
 
-        if (!modpack.getName().equalsIgnoreCase(metadata.minepkgModpack.getName()) ||
-            !modpack.getVersion().equalsIgnoreCase(metadata.minepkgModpack.getVersion())) {
+        String modpackName = customMetadata.minepkgModpack.getName();
+        String modpackVersion = customMetadata.minepkgModpack.getVersion();
+
+        if (!modpack.getName().equalsIgnoreCase(modpackName) ||
+            !modpack.getVersion().equalsIgnoreCase(modpackVersion)) {
             // Modpacks are different
-            // Might render an 'X' by the server name here in the future
+            // Make Minecraft think that the server is out of date with a protocol version of -1
+            // It will then display the game version in red by the server name
+            String gameVersion = "Modpack: " + modpackName + "@" + modpackVersion;
+            ServerMetadata.Version version = new ServerMetadata.Version(gameVersion, -1);
+            metadata.setVersion(version);
+
             return;
         }
 
