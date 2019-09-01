@@ -16,7 +16,7 @@ public class EventServerQueryResponse {
     /**
      * Called whenever a minepkg-modded server responds with information about the server and modpack.
      */
-    public static void onServerQueryResponse (CustomServerMetadata metadata) {
+    public static void onServerQueryResponse (CustomServerMetadata customMetadata) {
         Modpack modpack = MinepkgCompanion.getModpack();
 
         if (modpack == null) {
@@ -24,8 +24,8 @@ public class EventServerQueryResponse {
             return;
         }
 
-        if (!modpack.getName().equalsIgnoreCase(metadata.minepkgModpack.getName()) ||
-            !modpack.getVersion().equalsIgnoreCase(metadata.minepkgModpack.getVersion())) {
+        if (!modpack.getName().equalsIgnoreCase(customMetadata.minepkgModpack.getName()) ||
+                !modpack.getVersion().equalsIgnoreCase(customMetadata.minepkgModpack.getVersion())) {
             // Modpacks are different
             // Might render an 'X' by the server name here in the future
             return;
