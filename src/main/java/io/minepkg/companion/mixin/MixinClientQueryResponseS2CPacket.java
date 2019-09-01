@@ -75,6 +75,6 @@ public class MixinClientQueryResponseS2CPacket {
         // Assign the custom metadata field for use in our code
         CustomServerMetadata customMetadata = JsonHelper.deserialize(GSON, str, CustomServerMetadata.class);
         // Fire the minepkg-modpack event (server has a modpack from the minepkg site)
-        EventServerQueryResponse.onCustomServerQueryResponse(customMetadata, metadata);
+        EventServerQueryResponse.onServerQueryResponse(customMetadata);
     }
 }

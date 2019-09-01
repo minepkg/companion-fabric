@@ -78,6 +78,7 @@ public class MinepkgCompanion implements ClientModInitializer {
 
 	/**
 	 * Makes a field public and not-final.
+	 * Used to modify the factories field of a Gson object.
 	 * @param clazz The class of the field.
 	 * @param name The name of the field.
 	 * @return The data in the field.
@@ -100,6 +101,7 @@ public class MinepkgCompanion implements ClientModInitializer {
 
 	/**
 	 * Makes a field private and final.
+	 * Used to revert making the factories Gson field settable.
 	 * @param clazz The class of the field.
 	 * @param name The name of the field.
 	 * @throws NoSuchFieldException If the field doesn't exist.
