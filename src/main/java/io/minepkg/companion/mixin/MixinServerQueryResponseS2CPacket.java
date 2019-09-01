@@ -36,7 +36,6 @@ public class MixinServerQueryResponseS2CPacket {
      * @reason imperative major changes to function
      */
     @Overwrite
-    @SuppressWarnings("unchecked")
     public void write (PacketByteBuf buf) throws IOException {
         // Get the modpack the server is running.
         Modpack modpack = MinepkgCompanion.getModpack();
