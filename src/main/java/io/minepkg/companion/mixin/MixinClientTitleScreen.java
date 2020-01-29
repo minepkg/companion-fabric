@@ -4,7 +4,7 @@ import io.minepkg.companion.MinepkgCompanion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.options.ServerEntry;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.level.storage.LevelStorageException;
 import net.minecraft.world.level.storage.LevelSummary;
@@ -79,7 +79,7 @@ public class MixinClientTitleScreen {
 
 	private void joinServer (String hostname) {
 		// Create a server entry
-		ServerEntry entry = new ServerEntry(hostname, hostname, true);
+		ServerInfo entry = new ServerInfo(hostname, hostname, true);
 		// Join the server
 		MinecraftClient.getInstance().openScreen(new ConnectScreen(null, MinecraftClient.getInstance(), entry));
 	}

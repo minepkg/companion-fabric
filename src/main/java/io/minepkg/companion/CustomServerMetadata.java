@@ -26,7 +26,7 @@ public class CustomServerMetadata extends ServerMetadata {
 
         public CustomServerMetadata deserialize (JsonElement elem, Type type_1, JsonDeserializationContext ctx) throws JsonParseException {
             JsonObject obj = JsonHelper.asObject(elem, "status");
-            ServerMetadata metadata = new ServerMetadata.Deserializer().method_12691(elem, type_1, ctx);
+            ServerMetadata metadata = new ServerMetadata.Deserializer().deserialize(elem, type_1, ctx);
             CustomServerMetadata customMetadata = new CustomServerMetadata(metadata);
 
             if (obj.has("minepkgModpack")) {
@@ -37,7 +37,7 @@ public class CustomServerMetadata extends ServerMetadata {
         }
 
         public JsonElement serialize (CustomServerMetadata metadata, Type type, JsonSerializationContext ctx) {
-            JsonObject obj = (new ServerMetadata.Deserializer().method_12692(metadata, type, ctx)).getAsJsonObject();
+            JsonObject obj = (new ServerMetadata.Deserializer().serialize(metadata, type, ctx)).getAsJsonObject();
 
             if (metadata.minepkgModpack != null) {
                 obj.add("minepkgModpack", ctx.serialize(metadata.minepkgModpack));
