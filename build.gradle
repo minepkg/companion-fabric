@@ -13,6 +13,15 @@ group = project.maven_group
 minecraft {
 }
 
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	// configuration that holds jars to include in the jar
+	extraLibs
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -21,10 +30,13 @@ dependencies {
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
-	compile 'com.moandjiezana.toml:toml4j:0.7.2'
+	extraLibs 'com.moandjiezana.toml:toml4j:0.7.2'
 
 	// Fabric API
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// Downloads the jars
+	configurations.compile.extendsFrom(configurations.extraLibs)
 }
 
 processResources {
@@ -56,6 +68,9 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 jar {
+	from {
+		configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 	from "LICENSE"
 }
 
