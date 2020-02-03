@@ -1,15 +1,43 @@
+stages:
+  - "build"
+  - "test"
+
 test build:
+  stage: "build"
   # TODO: use minepkg gradle image
   image: openjdk:8-jdk
   script:
-  - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
-  - chmod +x /usr/local/bin/minepkg
-  - minepkg build
+    - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
+    - chmod +x /usr/local/bin/minepkg
+    - minepkg build
   artifacts:
     paths:
       - build/libs
+
 unit test:
   stage: "build"
   image: openjdk:8-jdk
   script:
     - ./gradlew test
+
+crash-test 1.14:
+  stage: "test"
+  image: openjdk:8-jdk
+  script:
+    - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
+    - chmod +x /usr/local/bin/minepkg
+    - cd ./test-manifests/1.14
+    - mkdir mods
+    - cp ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
+    - minepkg launch --server --crashtest --accept-eula --offline --system-java
+
+crash-test 1.15:
+  stage: "test"
+  image: openjdk:8-jdk
+  script:
+    - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
+    - chmod +x /usr/local/bin/minepkg
+    - cd ./test-manifests/1.15
+    - mkdir mods
+    - cp ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
+    - minepkg launch --server --crashtest --accept-eula --offline --system-java

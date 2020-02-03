@@ -25,7 +25,7 @@ public class MixinClientTitleScreen {
 		String var = System.getenv("MINEPKG_COMPANION_PLAY");
 
 		// If we haven't opened the title screen yet and the var exists
-		if (!MinepkgCompanion.INSTANCE.opened && var != null) {
+		if (!MinepkgCompanion.INSTANCE.opened && var != null && !var.trim().equals("")) {
 			// We opened the title screen
 			MinepkgCompanion.INSTANCE.opened = true;
 
