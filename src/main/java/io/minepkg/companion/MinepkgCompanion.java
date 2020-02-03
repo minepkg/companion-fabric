@@ -34,8 +34,8 @@ public class MinepkgCompanion implements ClientModInitializer {
 	 * Checks for and parses the minepkg.toml file.
 	 * @return The parsed TOML from the minepkg.toml file. Returns null when the file doesn't exist.
 	 */
-	public static Toml getToml () {
-		File file = new File("./minepkg.toml");
+	public static Toml getToml (String path) {
+		File file = new File(path);
 
 		if (!file.exists()) {
 			// We're not playing a modpack
@@ -49,8 +49,8 @@ public class MinepkgCompanion implements ClientModInitializer {
 	 * Gets the modpack that's being ran.
 	 * @return The modpack. Returns null when we aren't running a minepkg modpack.
 	 */
-	public static Modpack getModpack () {
-		Toml manifest = MinepkgCompanion.getToml();
+	public static Modpack getModpack (String manifestPath) {
+		Toml manifest = MinepkgCompanion.getToml(manifestPath);
 
 		if (manifest == null) {
 			// If the manifest doesn't exist, we don't have a modpack

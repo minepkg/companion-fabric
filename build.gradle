@@ -35,6 +35,10 @@ dependencies {
 	// Fabric API
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+	// Testing engines
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+
 	// Downloads the jars
 	configurations.compile.extendsFrom(configurations.extraLibs)
 }
@@ -72,6 +76,16 @@ jar {
 		configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
 	}
 	from "LICENSE"
+}
+
+test {
+	useJUnitPlatform()
+	maxHeapSize = "1G"
+	reports.html.enabled = false
+
+	filter {
+		includeTestsMatching "io.minepkg.companion.test.*"
+	}
 }
 
 // configure the maven publication

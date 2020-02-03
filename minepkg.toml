@@ -15,4 +15,4 @@ manifestVersion = 0
   # none
 
 [hooks]
-  build = "./gradlew build"
+  build = "./gradlew build -x test"
