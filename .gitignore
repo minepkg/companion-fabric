@@ -23,3 +23,7 @@ bin/
 # fabric
 
 run/
+
+# testing
+test-manifests/**/*
+!test-manifests/**/minepkg.toml
