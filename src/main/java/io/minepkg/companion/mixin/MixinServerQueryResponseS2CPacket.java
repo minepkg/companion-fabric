@@ -38,7 +38,7 @@ public class MixinServerQueryResponseS2CPacket {
     @Overwrite
     public void write (PacketByteBuf buf) throws IOException {
         // Get the modpack the server is running.
-        Modpack modpack = MinepkgCompanion.getModpack();
+        Modpack modpack = MinepkgCompanion.getModpack("./minepkg.toml");
 
         // If we haven't modified the GSON object already
         if (!modifiedGson) {

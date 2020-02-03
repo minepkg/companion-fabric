@@ -8,3 +8,8 @@ test build:
   artifacts:
     paths:
       - build/libs
+unit test:
+  stage: "build"
+  image: openjdk:8-jdk
+  script:
+    - ./gradlew test

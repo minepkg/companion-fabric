@@ -17,7 +17,7 @@ public class EventServerQueryResponse {
      * Called whenever a minepkg-modded server responds with information about the server and modpack.
      */
     public static void onCustomServerQueryResponse (CustomServerMetadata customMetadata, ServerMetadata metadata) {
-        Modpack modpack = MinepkgCompanion.getModpack();
+        Modpack modpack = MinepkgCompanion.getModpack("./minepkg.toml");
 
         if (modpack == null) {
             // We aren't running a minepkg modpack
