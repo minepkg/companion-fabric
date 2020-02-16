@@ -4,6 +4,7 @@
 build/
 out/
 classes/
+logs/
 
 # idea
 
@@ -25,5 +26,6 @@ bin/
 run/
 
 # testing
+
 test-manifests/**/*
 !test-manifests/**/minepkg.toml

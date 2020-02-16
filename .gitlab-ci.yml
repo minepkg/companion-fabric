@@ -1,3 +1,11 @@
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+
+cache:
+  key: "gradle-$CI_COMMIT_REF_SLUG"
+  paths:
+    - .gradle/caches
+
 stages:
   - "build"
   - "test"
@@ -5,20 +13,18 @@ stages:
 test build:
   stage: "build"
   # TODO: use minepkg gradle image
-  image: openjdk:8-jdk
+  image: gradle:5.6.2-jdk8
   script:
-    - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
-    - chmod +x /usr/local/bin/minepkg
-    - minepkg build
+    - gradle build -x test
   artifacts:
     paths:
       - build/libs
 
 unit test:
-  stage: "build"
-  image: openjdk:8-jdk
+  stage: "test"
+  image: gradle:5.6.2-jdk8
   script:
-    - ./gradlew test
+    - gradle test
 
 crash-test 1.14:
   stage: "test"
@@ -27,9 +33,13 @@ crash-test 1.14:
     - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
     - chmod +x /usr/local/bin/minepkg
     - cd ./test-manifests/1.14
-    - mkdir mods
-    - cp ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
+    - mkdir -p mods
+    - cp -f ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
     - minepkg launch --server --crashtest --accept-eula --offline --system-java
+  cache:
+    key: "server-1.14-$CI_COMMIT_REF_SLUG"
+    paths:
+      - test-manifests/1.14
 
 crash-test 1.15:
   stage: "test"
@@ -38,6 +48,10 @@ crash-test 1.15:
     - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
     - chmod +x /usr/local/bin/minepkg
     - cd ./test-manifests/1.15
-    - mkdir mods
-    - cp ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
+    - mkdir -p mods
+    - cp -f ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
     - minepkg launch --server --crashtest --accept-eula --offline --system-java
+  cache:
+    key: "server-1.15-$CI_COMMIT_REF_SLUG"
+    paths:
+      - test-manifests/1.15
