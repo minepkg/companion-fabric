@@ -36,7 +36,7 @@ dependencies {
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Testing engines
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 
 	// Downloads the jars
