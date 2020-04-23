@@ -2,12 +2,13 @@ package io.minepkg.companion.mixin;
 
 import com.google.gson.*;
 import io.minepkg.companion.CustomServerMetadata;
-import io.minepkg.companion.MinepkgCompanion;
-import io.minepkg.companion.Modpack;
 import io.minepkg.companion.events.EventServerQueryResponse;
 import net.minecraft.client.network.packet.QueryResponseS2CPacket;
 import net.minecraft.server.ServerMetadata;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 import net.minecraft.util.PacketByteBuf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,8 +25,15 @@ public class MixinClientQueryResponseS2CPacket {
     @Shadow
     private ServerMetadata metadata;
 
-    // Whether or not we've modified the GSON object
-    private boolean modifiedGson = false;
+    // A GSON object used to serialize the custom metadata.
+    private final Gson CustomGson = (new GsonBuilder())
+            .registerTypeAdapter(CustomServerMetadata.class, new CustomServerMetadata.Serializer())
+            .registerTypeHierarchyAdapter(ServerMetadata.Players.class, new ServerMetadata.Players.Deserializer())
+            .registerTypeHierarchyAdapter(ServerMetadata.Version.class, new ServerMetadata.Version.Serializer())
+            .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
+            .registerTypeHierarchyAdapter(Style.class, new Style.Serializer())
+            .registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory())
+            .create();
 
     // Copies this final property from the original class
     @Shadow
@@ -39,21 +47,6 @@ public class MixinClientQueryResponseS2CPacket {
      */
     @Overwrite
     public void read(PacketByteBuf buf) throws IOException {
-        // If we haven't modified the GSON object already
-        if (!modifiedGson) {
-            try {
-                // Add the type adapters to the GSON object
-                MinepkgCompanion.addTypeAdapterToGson(GSON, CustomServerMetadata.Deserializer.class);
-                MinepkgCompanion.addTypeAdapterToGson(GSON, Modpack.Serializer.class);
-            } catch (IllegalAccessException | NoSuchFieldException | InstantiationException e) {
-                // Give up
-                buf.writeString(GSON.toJson(metadata));
-                return;
-            }
-
-            modifiedGson = true;
-        }
-
         // Read the stringified JSON from the buffer
         // 32767 is considered the maximum length of the JSON response from the server and 16-bit integers
         String str = buf.readString(32767);
@@ -73,7 +66,7 @@ public class MixinClientQueryResponseS2CPacket {
         }
 
         // Assign the custom metadata field for use in our code
-        CustomServerMetadata customMetadata = JsonHelper.deserialize(GSON, str, CustomServerMetadata.class);
+        CustomServerMetadata customMetadata = JsonHelper.deserialize(CustomGson, str, CustomServerMetadata.class);
         // Fire the minepkg-modpack event (server has a modpack from the minepkg site)
         EventServerQueryResponse.onCustomServerQueryResponse(customMetadata, metadata);
     }

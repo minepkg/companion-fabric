@@ -6,6 +6,9 @@ import io.minepkg.companion.MinepkgCompanion;
 import io.minepkg.companion.Modpack;
 import net.minecraft.client.network.packet.QueryResponseS2CPacket;
 import net.minecraft.server.ServerMetadata;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 import net.minecraft.util.PacketByteBuf;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,8 +25,15 @@ public class MixinServerQueryResponseS2CPacket {
     @Shadow
     private ServerMetadata metadata;
 
-    // Whether or not we've modified the GSON object
-    private boolean modifiedGson = false;
+    // A GSON object used to deserialize the custom metadata.
+    private final Gson CustomGson = (new GsonBuilder())
+            .registerTypeAdapter(CustomServerMetadata.class, new CustomServerMetadata.Serializer())
+            .registerTypeHierarchyAdapter(ServerMetadata.Players.class, new ServerMetadata.Players.Deserializer())
+            .registerTypeHierarchyAdapter(ServerMetadata.Version.class, new ServerMetadata.Version.Serializer())
+            .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
+            .registerTypeHierarchyAdapter(Style.class, new Style.Serializer())
+            .registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory())
+            .create();
 
     // Copies this final property from the original class
     @Shadow
@@ -40,22 +50,6 @@ public class MixinServerQueryResponseS2CPacket {
         // Get the modpack the server is running.
         Modpack modpack = MinepkgCompanion.getModpack("./minepkg.toml");
 
-        // If we haven't modified the GSON object already
-        if (!modifiedGson) {
-            try {
-                // Add the type adapters to the GSON object
-                MinepkgCompanion.addTypeAdapterToGson(GSON, CustomServerMetadata.Deserializer.class);
-                MinepkgCompanion.addTypeAdapterToGson(GSON, Modpack.Serializer.class);
-            } catch (InstantiationException | NoSuchFieldException | IllegalAccessException e) {
-                // Give up
-                buf.writeString(GSON.toJson(metadata));
-                return;
-            }
-
-            modifiedGson = true;
-        }
-
-
         if (modpack == null) {
             // Server isn't running a minepkg modpack, just respond normally
             buf.writeString(GSON.toJson(metadata));
@@ -67,6 +61,7 @@ public class MixinServerQueryResponseS2CPacket {
         customMetadata.minepkgModpack = modpack;
 
         // Convert the custom metadata to JSON and write it to the buffer
-        buf.writeString(GSON.toJson(customMetadata));
+        String metadataStr = CustomGson.toJson(customMetadata);
+        buf.writeString(metadataStr);
     }
 }

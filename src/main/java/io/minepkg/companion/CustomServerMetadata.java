@@ -20,8 +20,8 @@ public class CustomServerMetadata extends ServerMetadata {
     }
 
     /** Handles (de)serialization of the custom & original metadata **/
-    public static class Deserializer implements JsonDeserializer<CustomServerMetadata>, JsonSerializer<CustomServerMetadata> {
-        public Deserializer() {
+    public static class Serializer implements JsonDeserializer<CustomServerMetadata>, JsonSerializer<CustomServerMetadata> {
+        public Serializer() {
         }
 
         public CustomServerMetadata deserialize (JsonElement elem, Type type_1, JsonDeserializationContext ctx) throws JsonParseException {

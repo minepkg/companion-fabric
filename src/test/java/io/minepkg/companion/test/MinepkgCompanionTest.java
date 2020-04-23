@@ -30,13 +30,4 @@ class MinepkgCompanionTest {
         Modpack modpack = Objects.requireNonNull(MinepkgCompanion.getModpack(MANIFEST_PATH));
         assertEquals(modpack.getName() + "@" + modpack.getVersion(), "minepkg-companion-test@0.1.0");
     }
-
-    @Test
-    @DisplayName("Add type adapter to Gson object")
-    void addTypeAdapterToGson() throws IllegalAccessException, InstantiationException, NoSuchFieldException {
-        Gson gson = new GsonBuilder().registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory()).create();
-
-        MinepkgCompanion.addTypeAdapterToGson(gson, CustomServerMetadata.Deserializer.class);
-        MinepkgCompanion.addTypeAdapterToGson(gson, Modpack.Serializer.class);
-    }
 }

@@ -31,7 +31,6 @@ public class Modpack {
     /** Handles (de)serialization of the modpack info **/
     public static class Serializer implements JsonDeserializer<Modpack>, JsonSerializer<Modpack> {
         public Serializer () {
-
         }
 
         public Modpack deserialize (JsonElement json, Type type, JsonDeserializationContext ctx) throws JsonParseException {
