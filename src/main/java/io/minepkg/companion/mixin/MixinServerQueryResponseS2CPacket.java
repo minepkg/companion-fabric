@@ -47,6 +47,12 @@ public class MixinServerQueryResponseS2CPacket {
      */
     @Overwrite
     public void write (PacketByteBuf buf) throws IOException {
+        if (metadata == null) {
+            // The metadata is null, respond with an empty object
+            buf.writeString("{}");
+            return;
+        }
+
         // Get the modpack the server is running.
         Modpack modpack = MinepkgCompanion.getModpack("./minepkg.toml");
 
