@@ -1,5 +1,6 @@
 variables:
   GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+  MINEPKG_ACCEPTMINECRAFTEULA: 1
 
 cache:
   key: "gradle-$CI_COMMIT_REF_SLUG"
@@ -36,7 +37,7 @@ crash-test 1.14:
     - cd ./test-manifests/1.14
     - mkdir -p mods
     - cp -f ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
-    - minepkg launch --server --crashtest --accept-eula --offline --system-java
+    - minepkg launch --server --crashtest --offline --system-java
   cache:
     key: "server-1.14-$CI_COMMIT_REF_SLUG"
     paths:
@@ -51,7 +52,7 @@ crash-test 1.15:
     - cd ./test-manifests/1.15
     - mkdir -p mods
     - cp -f ../../build/libs/MinepkgCompanion-*.*.[0-9].jar mods/minepkg-companion-custom.jar
-    - minepkg launch --server --crashtest --accept-eula --offline --system-java
+    - minepkg launch --server --crashtest --offline --system-java
   cache:
     key: "server-1.15-$CI_COMMIT_REF_SLUG"
     paths:
