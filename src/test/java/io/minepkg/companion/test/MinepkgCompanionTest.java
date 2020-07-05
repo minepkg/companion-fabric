@@ -2,13 +2,9 @@ package io.minepkg.companion.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.moandjiezana.toml.Toml;
-import io.minepkg.companion.CustomServerMetadata;
 import io.minepkg.companion.MinepkgCompanion;
 import io.minepkg.companion.Modpack;
-import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +23,10 @@ class MinepkgCompanionTest {
     @Test
     @DisplayName("Get modpack object")
     void getModpack() {
-        Modpack modpack = Objects.requireNonNull(MinepkgCompanion.getModpack(MANIFEST_PATH));
+        // TODO: this probably could look nicer
+        MinepkgCompanion.INSTANCE = new MinepkgCompanion();
+        MinepkgCompanion.INSTANCE.fallbackManifestPath = MANIFEST_PATH;
+        Modpack modpack = Objects.requireNonNull(MinepkgCompanion.getModpack());
         assertEquals(modpack.getName() + "@" + modpack.getVersion(), "minepkg-companion-test@0.1.0");
     }
 }

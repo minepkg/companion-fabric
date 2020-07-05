@@ -27,5 +27,6 @@ run/
 
 # testing
 
+minecraft
 test-manifests/**/*
 !test-manifests/**/minepkg.toml

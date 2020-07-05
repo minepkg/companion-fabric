@@ -47,15 +47,14 @@ public class MixinServerQueryResponseS2CPacket {
      */
     @Overwrite
     public void write (PacketByteBuf buf) throws IOException {
+        Modpack modpack = MinepkgCompanion.getModpack();
+
         if (metadata == null) {
             // The metadata is null, respond with an empty object
             buf.writeString("{}");
             return;
         }
-
-        // Get the modpack the server is running.
-        Modpack modpack = MinepkgCompanion.getModpack("./minepkg.toml");
-
+        
         if (modpack == null) {
             // Server isn't running a minepkg modpack, just respond normally
             buf.writeString(GSON.toJson(metadata));
@@ -68,6 +67,7 @@ public class MixinServerQueryResponseS2CPacket {
 
         // Convert the custom metadata to JSON and write it to the buffer
         String metadataStr = CustomGson.toJson(customMetadata);
+        System.out.println(metadataStr);
         buf.writeString(metadataStr);
     }
 }
