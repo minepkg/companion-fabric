@@ -2,13 +2,12 @@
   "required": true,
   "package": "io.minepkg.companion.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
+  "mixins": [
+    "MixinServerQueryResponseS2CPacket"
+  ],
   "client": [
     "MixinClientTitleScreen",
     "MixinClientQueryResponseS2CPacket"
-  ],
-  "server": [
-    "MixinServerQueryResponseS2CPacket"
   ],
   "injectors": {
     "defaultRequire": 1
