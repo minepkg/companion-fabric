@@ -67,7 +67,6 @@ public class MixinServerQueryResponseS2CPacket {
 
         // Convert the custom metadata to JSON and write it to the buffer
         String metadataStr = CustomGson.toJson(customMetadata);
-        System.out.println(metadataStr);
         buf.writeString(metadataStr);
     }
 }

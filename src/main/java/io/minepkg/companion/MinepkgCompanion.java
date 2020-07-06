@@ -56,7 +56,7 @@ public class MinepkgCompanion implements ModInitializer {
 		// as a last resort, let's check if the manifest is in the parent directory
 		if (manifest == null) manifest = MinepkgCompanion.getToml("../minepkg.toml");
 
-		// reading done, we don't want to read again
+		// reading done, we don't want to read again – even if the toml is parsable
 		INSTANCE.modpackCached = true;
 
 		if (manifest == null) {
@@ -70,7 +70,6 @@ public class MinepkgCompanion implements ModInitializer {
 		// fallback to package.name (will almost never result in a working setup as that modpack has to be published in that version)
 		if (modpackName == null) modpackName = manifest.getString("package.name");
 		String modpackVersion = manifest.getString("package.version");
-		// Map<String, Object> map = manifest.getTable("dependencies").toMap();
 
 		if (manifestVersion == null || manifestVersion != COMPATIBLE_MANIFEST_VERSION) {
 			// Invalid manifest version
