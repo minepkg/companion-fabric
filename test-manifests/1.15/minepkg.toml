@@ -6,6 +6,7 @@ manifestVersion = 0
   description = "Test modpack. pls ignore"
   license = "MIT"
   version = "0.1.0"
+  basedOn = "minepkg-companion-test"
 
 [requirements]
   minecraft = "1.15.x"

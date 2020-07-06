@@ -6,9 +6,13 @@ import java.io.File;
 
 public class MinepkgCompanion implements ModInitializer {
 	public static final int COMPATIBLE_MANIFEST_VERSION = 0;
-
+	
 	public boolean opened = false;
 	public static MinepkgCompanion INSTANCE;
+	
+	public String fallbackManifestPath = "./minepkg.toml";
+	private Modpack modpack;
+	private boolean modpackCached = false;
 
 	@Override
 	public void onInitialize () {
@@ -17,7 +21,7 @@ public class MinepkgCompanion implements ModInitializer {
 		// Proceed with mild caution.
 
 		INSTANCE = this;
-		System.out.println("Started the minepkg companion.");
+		System.out.println("minepkg companion ready");
 	}
 
 	/**
@@ -39,8 +43,21 @@ public class MinepkgCompanion implements ModInitializer {
 	 * Gets the modpack that's being ran.
 	 * @return The modpack. Returns null when we aren't running a minepkg modpack.
 	 */
-	public static Modpack getModpack (String manifestPath) {
+	public static Modpack getModpack () {
+
+		// only read the manifest once
+		if (INSTANCE.modpackCached == true) {
+			return INSTANCE.modpack;
+		}
+
+		String manifestPath = System.getenv("MINEPKG_COMPANION_MANIFEST_PATH");
+		if (manifestPath == null) manifestPath = INSTANCE.fallbackManifestPath;
 		Toml manifest = MinepkgCompanion.getToml(manifestPath);
+		// as a last resort, let's check if the manifest is in the parent directory
+		if (manifest == null) manifest = MinepkgCompanion.getToml("../minepkg.toml");
+
+		// reading done, we don't want to read again – even if the toml is not parsable/readable
+		INSTANCE.modpackCached = true;
 
 		if (manifest == null) {
 			// If the manifest doesn't exist, we don't have a modpack
@@ -49,7 +66,9 @@ public class MinepkgCompanion implements ModInitializer {
 
 		Long manifestVersion = manifest.getLong("manifestVersion");
 		String type = manifest.getString("package.type");
-		String modpackName = manifest.getString("package.name");
+		String modpackName = manifest.getString("package.basedOn");
+		// fallback to package.name (will almost never result in a working setup as that modpack has to be published in that version)
+		if (modpackName == null) modpackName = manifest.getString("package.name");
 		String modpackVersion = manifest.getString("package.version");
 
 		if (manifestVersion == null || manifestVersion != COMPATIBLE_MANIFEST_VERSION) {
@@ -63,6 +82,7 @@ public class MinepkgCompanion implements ModInitializer {
 			return null;
 		}
 
-		return new Modpack(modpackName, modpackVersion, "fabric");
+		INSTANCE.modpack = new Modpack(modpackName, modpackVersion, "fabric");
+		return INSTANCE.modpack;
 	}
 }
