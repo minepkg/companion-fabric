@@ -56,7 +56,7 @@ public class MinepkgCompanion implements ModInitializer {
 		// as a last resort, let's check if the manifest is in the parent directory
 		if (manifest == null) manifest = MinepkgCompanion.getToml("../minepkg.toml");
 
-		// reading done, we don't want to read again – even if the toml is parsable
+		// reading done, we don't want to read again – even if the toml is not parsable/readable
 		INSTANCE.modpackCached = true;
 
 		if (manifest == null) {
