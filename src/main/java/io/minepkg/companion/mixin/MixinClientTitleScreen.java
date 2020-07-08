@@ -63,8 +63,7 @@ public class MixinClientTitleScreen {
 				// Check if the level is the one that we want to join
 				if (level.getName().toLowerCase().equals(name)) {
 					// Start the integrated server on this level
-					MinecraftClient.getInstance().startIntegratedServer(level.getName(),
-							level.getDisplayName(), null);
+					MinecraftClient.getInstance().startIntegratedServer(level.getName());
 					return true;
 				}
 			}

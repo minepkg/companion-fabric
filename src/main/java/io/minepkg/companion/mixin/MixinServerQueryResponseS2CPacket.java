@@ -1,21 +1,24 @@
 package io.minepkg.companion.mixin;
 
-import com.google.gson.*;
-import io.minepkg.companion.CustomServerMetadata;
-import io.minepkg.companion.MinepkgCompanion;
-import io.minepkg.companion.Modpack;
-import net.minecraft.client.network.packet.QueryResponseS2CPacket;
-import net.minecraft.server.ServerMetadata;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
-import net.minecraft.util.PacketByteBuf;
+import java.io.IOException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.io.IOException;
+import io.minepkg.companion.CustomServerMetadata;
+import io.minepkg.companion.MinepkgCompanion;
+import io.minepkg.companion.Modpack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.query.QueryResponseS2CPacket;
+import net.minecraft.server.ServerMetadata;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 
 // Modifies the ClientQueryResponse packet class on the server's side
 // To send extra data containing modpack information
