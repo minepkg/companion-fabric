@@ -6,7 +6,7 @@ manifestVersion = 0
   platform = "fabric"
   description = "A helper mod for minepkg. It would be lonely without it."
   license = "MIT"
-  version = "0.3.0"
+  version = "0.3.1"
 
 [requirements]
   minecraft = "~1.16.0"

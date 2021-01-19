@@ -4,16 +4,6 @@
 lockfileVersion = 1
 
 [fabric]
-  minecraft = "1.16.1"
-  fabricLoader = "0.8.9+build.203"
-  mapping = "1.16.1+build.20"
-
-[dependencies]
-  [dependencies.minepkg-companion]
-    name = "minepkg-companion"
-    version = "0.3.0"
-    type = "mod"
-    ipfsHash = "QmPMAnrrc72A2V1RG2JPtTgEsCM9Lpcp4aFtTkiB5bdkM2"
-    Sha256 = "aef1d37178304d60ab422410facecd44a5730622a1c3f3d3cd476b19775d5bd3"
-    url = "https://test-api.minepkg.io/v1/releases/fabric/minepkg-companion@0.3.0/download"
-    provider = ""
+  minecraft = "1.16.2"
+  fabricLoader = "0.11.1"
+  mapping = "1.16.2+build.47"
