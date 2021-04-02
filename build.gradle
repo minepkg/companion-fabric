@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.4.30'
 	id 'maven-publish'
+	id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -15,8 +16,7 @@ repositories {
 }
 
 configurations {
-	// configuration that holds jars to include in the jar
-	extraLibs
+	shadow
 }
 
 dependencies {
@@ -25,9 +25,10 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
-	extraLibs 'com.moandjiezana.toml:toml4j:0.7.2'
+	implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+	shadow("com.moandjiezana.toml:toml4j:0.7.2") {
+		exclude(module: "gson")
+	}
 
 	// Fabric API
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -36,8 +37,6 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
 
-	// Downloads the jars
-	configurations.compile.extendsFrom(configurations.extraLibs)
 }
 
 processResources {
@@ -75,6 +74,17 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
+}
+
+shadowJar {
+	relocate "com.moandjiezana.toml", "io.minepkg.companion.shadowed.com.moandjiezana.toml"
+	configurations = [project.configurations.shadow]
+	classifier "shadow"
+}
+
+remapJar {
+	dependsOn(shadowJar)
+	input.set(shadowJar.archiveFile)
 }
 
 // configure the maven publication
