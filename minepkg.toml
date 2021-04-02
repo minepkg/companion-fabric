@@ -3,17 +3,15 @@ manifestVersion = 0
 [package]
   type = "mod"
   name = "minepkg-companion"
-  platform = "fabric"
   description = "A helper mod for minepkg. It would be lonely without it."
+  version = "0.3.2"
+  platform = "fabric"
   license = "MIT"
-  version = "0.3.1"
 
 [requirements]
   minecraft = "~1.16.0"
   fabric = "*"
 
 [dependencies]
-  # none
 
-[hooks]
-  build = "./gradlew build -x test"
+[dev]
