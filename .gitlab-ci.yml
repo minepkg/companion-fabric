@@ -30,7 +30,7 @@ unit test:
 
 crash-test 1.14:
   stage: "test"
-  image: openjdk:8-jdk
+  image: openjdk:18-jdk
   script:
     - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
     - chmod +x /usr/local/bin/minepkg
@@ -45,7 +45,7 @@ crash-test 1.14:
 
 crash-test 1.15:
   stage: "test"
-  image: openjdk:8-jdk
+  image: openjdk:18-jdk
   script:
     - curl -L "https://storage.googleapis.com/minepkg-client/latest/minepkg-linux-amd64" -o /usr/local/bin/minepkg
     - chmod +x /usr/local/bin/minepkg
