@@ -1,18 +1,6 @@
 package io.minepkg.companion.mixin;
 
-import java.io.IOException;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
-
+import com.google.gson.*;
 import io.minepkg.companion.CustomServerMetadata;
 import io.minepkg.companion.events.EventServerQueryResponse;
 import net.minecraft.network.PacketByteBuf;
@@ -22,13 +10,21 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // Modifies the ClientQueryResponse packet class on the client's side
 // To parse minepkg metadata from ClientQueryResponses (Server List Ping)
 @Mixin(QueryResponseS2CPacket.class)
 public class MixinClientQueryResponseS2CPacket {
-    // Copies this property from the original class
     @Shadow
+    @Final
     private ServerMetadata metadata;
 
     // A GSON object used to serialize the custom metadata.
@@ -41,28 +37,25 @@ public class MixinClientQueryResponseS2CPacket {
             .registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory())
             .create();
 
-    // Copies this final property from the original class
-    @Shadow
-    @Final
-    private static Gson GSON;
+    @Unique
+    private String stringifiedJson;
 
-    /**
-     * Reads JSON from the packet buffer and sets the appropriate properties of the packet
-     * @author minepkg-companion
-     * @reason imperative major changes to function
-     */
-    @Overwrite
-    public void read(PacketByteBuf buf) throws IOException {
-        // Read the stringified JSON from the buffer
-        // 32767 is considered the maximum length of the JSON response from the server and 16-bit integers
-        String str = buf.readString(32767);
+    /** Captures the value of packetByteBuf.readString(32767) inside the constructor call */
+    @ModifyArg(method = "<init>(Lnet/minecraft/network/PacketByteBuf;)V",
+        at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/JsonHelper;deserialize(Lcom/google/gson/Gson;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;"),
+        index = 1
+    )
+    public String captureJSON(String str) {
+        stringifiedJson = str;
+        return str;
+    }
 
+    /** Executes after captureJSON and the constructor itself to parse the minepkg metadata */
+    @Inject(method = "<init>(Lnet/minecraft/network/PacketByteBuf;)V", at = @At("RETURN"))
+    public void parseMinepkgMetadata(PacketByteBuf packetByteBuf, CallbackInfo ci) {
         // Parse the JSON
-        JsonElement element = new JsonParser().parse(str);
+        JsonElement element = new JsonParser().parse(stringifiedJson);
         JsonObject obj = element.getAsJsonObject();
-
-        // Assign the metadata field for use in original MC code
-        metadata = JsonHelper.deserialize(GSON, str, ServerMetadata.class);
 
         // If the data came from a vanilla/non-minepkg-modpack server
         if (!obj.has("minepkgModpack")) {
@@ -72,8 +65,10 @@ public class MixinClientQueryResponseS2CPacket {
         }
 
         // Assign the custom metadata field for use in our code
-        CustomServerMetadata customMetadata = JsonHelper.deserialize(CustomGson, str, CustomServerMetadata.class);
+        CustomServerMetadata customMetadata = JsonHelper.deserialize(CustomGson, stringifiedJson, CustomServerMetadata.class);
         // Fire the minepkg-modpack event (server has a modpack from the minepkg site)
         EventServerQueryResponse.onCustomServerQueryResponse(customMetadata, metadata);
+
+        stringifiedJson = null; // free memory
     }
 }
