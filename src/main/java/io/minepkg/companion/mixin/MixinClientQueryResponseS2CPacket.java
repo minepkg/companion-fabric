@@ -42,7 +42,7 @@ public class MixinClientQueryResponseS2CPacket {
 
     /** Captures the value of packetByteBuf.readString(32767) inside the constructor call */
     @ModifyArg(method = "<init>(Lnet/minecraft/network/PacketByteBuf;)V",
-        at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/JsonHelper;deserialize(Lcom/google/gson/Gson;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;"),
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/JsonHelper;deserialize(Lcom/google/gson/Gson;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;"),
         index = 1
     )
     public String captureJSON(String str) {
