@@ -25,14 +25,14 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	implementation 'com.moandjiezana.toml:toml4j:0.7.2'
-	shadow("com.moandjiezana.toml:toml4j:0.7.2") {
+	implementation "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
+	shadow("com.moandjiezana.toml:toml4j:${project.toml4j_version}") {
 		exclude(module: "gson")
 	}
 
 	// Testing engines
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_jupiter_version}"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_jupiter_version}"
 
 }
 
