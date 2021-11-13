@@ -18,7 +18,7 @@ import java.util.List;
 
 // This lets us work around the title screen
 @Mixin(TitleScreen.class)
-public class MixinClientTitleScreen {
+public abstract class MixinClientTitleScreen {
 	// Here, we add our code onto the end of the render method of the title screen (called many times per second)
 	@Inject(method = "render", at = @At("RETURN"))
 	private void onRenderTitleScreen (CallbackInfo ci) {
@@ -26,14 +26,16 @@ public class MixinClientTitleScreen {
 		String var = System.getenv("MINEPKG_COMPANION_PLAY");
 
 		// If we haven't opened the title screen yet and the var exists
-		if (!MinepkgCompanion.INSTANCE.opened && var != null && !var.trim().equals("")) {
+		if (!MinepkgCompanion.INSTANCE.opened && var != null && !var.trim().isEmpty()) {
 			// We opened the title screen
 			MinepkgCompanion.INSTANCE.opened = true;
 
+			var = var.toLowerCase();
+
 			// If it's a local world
-			if (var.toLowerCase().startsWith("local://")) {
+			if (var.startsWith("local://")) {
 				// Remove the local world identifier
-				var = var.substring("local://".length()).toLowerCase();
+				var = var.substring("local://".length());
 
 				// If we succeeded in joining the local world
 				if (joinLocalWorld(var)) {
@@ -42,9 +44,9 @@ public class MixinClientTitleScreen {
 			}
 
 			// If it's an explicit server
-			if (var.toLowerCase().startsWith("server://")) {
+			if (var.startsWith("server://")) {
 				// Remove the server identifier
-				var = var.substring("server://".length()).toLowerCase();
+				var = var.substring("server://".length());
 			}
 
 			// Otherwise join the server (implicit or explicit)
