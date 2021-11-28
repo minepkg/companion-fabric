@@ -12,7 +12,7 @@ manifestVersion = 0
 
 # These are global requirements
 [requirements]
-  minecraft = "~1.17.0"
+  minecraft = ">=1.17.0 || <1.18.0-0"
   fabricLoader = "*"
   minepkgCompanion = "none"
 
