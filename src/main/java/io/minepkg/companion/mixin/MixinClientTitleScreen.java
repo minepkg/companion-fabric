@@ -30,8 +30,6 @@ public abstract class MixinClientTitleScreen {
 			// We opened the title screen
 			MinepkgCompanion.INSTANCE.opened = true;
 
-			var = var.toLowerCase();
-
 			// If it's a local world
 			if (var.startsWith("local://")) {
 				// Remove the local world identifier
@@ -64,7 +62,7 @@ public abstract class MixinClientTitleScreen {
 
 			for (LevelSummary level : levelSummaries) {
 				// Check if the level is the one that we want to join
-				if (level.getName().toLowerCase().equals(name)) {
+				if (level.getName().equalsIgnoreCase(name)) {
 					// Start the integrated server on this level
 					MinecraftClient.getInstance().startIntegratedServer(level.getName());
 					return true;
