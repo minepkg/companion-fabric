@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 // Modifies the ClientQueryResponse packet class on the client's side
 // To parse minepkg metadata from ClientQueryResponses (Server List Ping)
 @Mixin(QueryResponseS2CPacket.class)
-public class MixinClientQueryResponseS2CPacket {
+public abstract class MixinClientQueryResponseS2CPacket {
     @Shadow
     @Final
     private ServerMetadata metadata;

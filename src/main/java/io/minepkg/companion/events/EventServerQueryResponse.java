@@ -24,11 +24,11 @@ public class EventServerQueryResponse {
             return;
         }
 
-        String modpackName = customMetadata.minepkgModpack.getName();
-        String modpackVersion = customMetadata.minepkgModpack.getVersion();
+        String modpackName = customMetadata.minepkgModpack.name();
+        String modpackVersion = customMetadata.minepkgModpack.version();
 
-        if (!modpack.getName().equalsIgnoreCase(modpackName) ||
-            !modpack.getVersion().equalsIgnoreCase(modpackVersion)) {
+        if (!modpack.name().equalsIgnoreCase(modpackName) ||
+            !modpack.version().equalsIgnoreCase(modpackVersion)) {
             // Modpacks are different
             // Make Minecraft think that the server is out of date with a protocol version of -1
             // It will then display the game version in red by the server name

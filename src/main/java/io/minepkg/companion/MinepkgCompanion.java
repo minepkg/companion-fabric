@@ -6,10 +6,10 @@ import java.io.File;
 
 public class MinepkgCompanion implements ModInitializer {
 	public static final int COMPATIBLE_MANIFEST_VERSION = 0;
-	
+
 	public boolean opened = false;
 	public static MinepkgCompanion INSTANCE;
-	
+
 	public String fallbackManifestPath = "./minepkg.toml";
 	private Modpack modpack;
 	private boolean modpackCached = false;
@@ -46,7 +46,7 @@ public class MinepkgCompanion implements ModInitializer {
 	public static Modpack getModpack () {
 
 		// only read the manifest once
-		if (INSTANCE.modpackCached == true) {
+		if (INSTANCE.modpackCached) {
 			return INSTANCE.modpack;
 		}
 

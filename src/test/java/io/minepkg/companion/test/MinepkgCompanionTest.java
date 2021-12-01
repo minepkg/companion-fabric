@@ -27,6 +27,6 @@ class MinepkgCompanionTest {
         MinepkgCompanion.INSTANCE = new MinepkgCompanion();
         MinepkgCompanion.INSTANCE.fallbackManifestPath = MANIFEST_PATH;
         Modpack modpack = Objects.requireNonNull(MinepkgCompanion.getModpack());
-        assertEquals(modpack.getName() + "@" + modpack.getVersion(), "minepkg-companion-test@0.1.0");
+        assertEquals(modpack.name() + "@" + modpack.version(), "minepkg-companion-test@0.1.0");
     }
 }

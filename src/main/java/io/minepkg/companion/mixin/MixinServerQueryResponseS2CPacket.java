@@ -23,13 +23,14 @@ import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 // Modifies the ClientQueryResponse packet class on the server's side
 // To send extra data containing modpack information
 @Mixin(QueryResponseS2CPacket.class)
-public class MixinServerQueryResponseS2CPacket {
+public abstract class MixinServerQueryResponseS2CPacket {
     // Copies this property from the original class
     @Shadow
+    @Final
     private ServerMetadata metadata;
 
     // A GSON object used to deserialize the custom metadata.
-    private final Gson CustomGson = (new GsonBuilder())
+    private static final Gson CUSTOM_GSON = (new GsonBuilder())
             .registerTypeAdapter(CustomServerMetadata.class, new CustomServerMetadata.Serializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Players.class, new ServerMetadata.Players.Deserializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Version.class, new ServerMetadata.Version.Serializer())
@@ -57,7 +58,7 @@ public class MixinServerQueryResponseS2CPacket {
             buf.writeString("{}");
             return;
         }
-        
+
         if (modpack == null) {
             // Server isn't running a minepkg modpack, just respond normally
             buf.writeString(GSON.toJson(metadata));
@@ -69,7 +70,7 @@ public class MixinServerQueryResponseS2CPacket {
         customMetadata.minepkgModpack = modpack;
 
         // Convert the custom metadata to JSON and write it to the buffer
-        String metadataStr = CustomGson.toJson(customMetadata);
+        String metadataStr = CUSTOM_GSON.toJson(customMetadata);
         buf.writeString(metadataStr);
     }
 }
