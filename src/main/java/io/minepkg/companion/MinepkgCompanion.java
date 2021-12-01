@@ -2,9 +2,15 @@ package io.minepkg.companion;
 
 import com.moandjiezana.toml.Toml;
 import net.fabricmc.api.ModInitializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 
 public class MinepkgCompanion implements ModInitializer {
+	public static final String MOD_ID = "minepkg-companion";
+	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+
 	public static final int COMPATIBLE_MANIFEST_VERSION = 0;
 
 	public boolean opened = false;
@@ -21,7 +27,7 @@ public class MinepkgCompanion implements ModInitializer {
 		// Proceed with mild caution.
 
 		INSTANCE = this;
-		System.out.println("minepkg companion ready");
+		LOGGER.info("minepkg companion ready");
 	}
 
 	/**

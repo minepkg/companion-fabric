@@ -30,10 +30,8 @@ public abstract class MixinClientTitleScreen {
 			if (address.startsWith("local://")) {
 				String worldName = address.substring("local://".length());
 
-				// If we succeeded in joining the local world
-				if (joinLocalWorld(worldName)) {
-					return;
-				}
+				joinLocalWorld(worldName);
+				return;
 			}
 
 			// If it's an explicit server
@@ -42,12 +40,12 @@ public abstract class MixinClientTitleScreen {
 				address = address.substring("server://".length());
 			}
 
-			// Otherwise join the server (implicit or explicit)
+			// Join the server (implicit or explicit)
 			joinServer(address);
 		}
 	}
 
-	private boolean joinLocalWorld (String worldName) {
+	private void joinLocalWorld (String worldName) {
 		MinecraftClient client = MinecraftClient.getInstance();
 
 		try {
@@ -56,16 +54,14 @@ public abstract class MixinClientTitleScreen {
 				if (level.getName().equalsIgnoreCase(worldName)) {
 					// Start the integrated server on this level
 					client.startIntegratedServer(level.getName());
-					return true;
+					return;
 				}
 			}
-		} catch (LevelStorageException e) {
-			// Any exceptions and we try to join a server
-			return false;
-		}
 
-		// If we didn't find the world, try to join a server
-		return false;
+			MinepkgCompanion.LOGGER.warn("couldn't find local world {}", worldName);
+		} catch (LevelStorageException e) {
+			MinepkgCompanion.LOGGER.error("couldn't load local world {}", worldName, e);
+		}
 	}
 
 	private void joinServer (String hostname) {
