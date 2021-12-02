@@ -4,6 +4,6 @@
 lockfileVersion = 1
 
 [fabric]
-  minecraft = "1.17"
-  fabricLoader = "0.11.6"
-  mapping = "1.17+build.13"
+  minecraft = "1.18-rc3"
+  fabricLoader = "0.12.5"
+  mapping = "1.18-rc3+build.2"
