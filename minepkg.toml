@@ -22,4 +22,4 @@ manifestVersion = 0
   buildCommand = "./gradlew build"
 
   [dev.dependencies]
-    fabric = "^0.36.0"
+    fabric = "*"
