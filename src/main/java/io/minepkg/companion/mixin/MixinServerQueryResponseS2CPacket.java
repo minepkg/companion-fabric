@@ -24,7 +24,6 @@ import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 // To send extra data containing modpack information
 @Mixin(QueryResponseS2CPacket.class)
 public abstract class MixinServerQueryResponseS2CPacket {
-    // Copies this property from the original class
     @Shadow
     @Final
     private ServerMetadata metadata;
@@ -39,7 +38,6 @@ public abstract class MixinServerQueryResponseS2CPacket {
             .registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory())
             .create();
 
-    // Copies this final property from the original class
     @Shadow
     @Final
     private static Gson GSON;

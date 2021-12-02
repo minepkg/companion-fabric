@@ -28,7 +28,7 @@ public abstract class MixinClientQueryResponseS2CPacket {
     private ServerMetadata metadata;
 
     // A GSON object used to serialize the custom metadata.
-    private final Gson CustomGson = (new GsonBuilder())
+    private static final Gson CUSTOM_GSON = (new GsonBuilder())
             .registerTypeAdapter(CustomServerMetadata.class, new CustomServerMetadata.Serializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Players.class, new ServerMetadata.Players.Deserializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Version.class, new ServerMetadata.Version.Serializer())
@@ -45,7 +45,7 @@ public abstract class MixinClientQueryResponseS2CPacket {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/util/JsonHelper;deserialize(Lcom/google/gson/Gson;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;"),
         index = 1
     )
-    public String captureJSON(String str) {
+    public String captureJson(String str) {
         stringifiedJson = str;
         return str;
     }
@@ -65,7 +65,7 @@ public abstract class MixinClientQueryResponseS2CPacket {
         }
 
         // Assign the custom metadata field for use in our code
-        CustomServerMetadata customMetadata = JsonHelper.deserialize(CustomGson, stringifiedJson, CustomServerMetadata.class);
+        CustomServerMetadata customMetadata = JsonHelper.deserialize(CUSTOM_GSON, stringifiedJson, CustomServerMetadata.class);
         // Fire the minepkg-modpack event (server has a modpack from the minepkg site)
         EventServerQueryResponse.onCustomServerQueryResponse(customMetadata, metadata);
 
