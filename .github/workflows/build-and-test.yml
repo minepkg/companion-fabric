@@ -43,3 +43,19 @@ jobs:
       run: |
         rm -f ~/.gradle/caches/modules-2/modules-2.lock
         rm -f ~/.gradle/caches/modules-2/gc.properties
+  crash-test-on-multiple-versions:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        minecraft: [1.17.0 1.17.1 1.18.0 1.18.1 1.18.2]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: jars
+      - uses: minepkg/action-crash-test@v0
+        with:
+          minecraft: ${{ matrix.minecraft }}
