@@ -6,8 +6,10 @@ import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.world.level.storage.LevelStorageException;
 import net.minecraft.world.level.storage.LevelSummary;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,9 +24,12 @@ public abstract class MixinClientTitleScreen {
 		String address = System.getenv("MINEPKG_COMPANION_PLAY");
 
 		// If we haven't opened the title screen yet and the var exists
-		if (!MinepkgCompanion.INSTANCE.opened && address != null && !address.trim().isEmpty()) {
+		if (!MinepkgCompanion.INSTANCE.opened) {
 			// We opened the title screen
 			MinepkgCompanion.INSTANCE.opened = true;
+			MinepkgCompanion.LOGGER.info("[[minepkg-ready]]");
+
+			if (address == null || !address.trim().isEmpty()) return;
 
 			// If it's an explicit local world
 			if (address.startsWith("local://")) {

@@ -8,7 +8,8 @@
   "client": [
     "MixinClientTitleScreen",
     "MixinClientQueryResponseS2CPacket",
-    "MixinSplashOverlay"
+    "MixinSplashOverlay",
+    "MixinWindow"
   ],
   "injectors": {
     "defaultRequire": 1

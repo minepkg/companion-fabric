@@ -2,8 +2,10 @@ package io.minepkg.companion;
 
 import com.moandjiezana.toml.Toml;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.client.MinecraftClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 
@@ -27,7 +29,7 @@ public class MinepkgCompanion implements ModInitializer {
 		// Proceed with mild caution.
 
 		INSTANCE = this;
-		LOGGER.info("minepkg companion ready");
+		MinepkgCompanion.LOGGER.info("[[minepkg-hello v1]]");
 	}
 
 	/**

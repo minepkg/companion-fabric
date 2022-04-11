@@ -23,3 +23,4 @@ manifestVersion = 0
 
   [dev.dependencies]
     fabric = "*"
+    test-mansion = "*"
