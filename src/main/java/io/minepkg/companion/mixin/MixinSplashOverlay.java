@@ -17,10 +17,7 @@ public abstract class MixinSplashOverlay {
     // render is the function that changes progress
     @Inject(at = @At("TAIL"), method = "render")
     private void logLoadingProgress(CallbackInfo info) {
-
         // simply log the progress so that the player can see it
-        // TODO: Beautify the output
-        MinepkgCompanion.LOGGER.printf(Level.INFO,"Loading: %6.2f%%", this.progress * 100f);
-
+        MinepkgCompanion.LOGGER.printf(Level.INFO,"[minepkg:progress]:%d", this.progress);
     }
 }
