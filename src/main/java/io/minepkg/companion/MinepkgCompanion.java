@@ -9,7 +9,7 @@ import java.io.File;
 
 public class MinepkgCompanion implements ModInitializer {
 	public static final String MOD_ID = "minepkg-companion";
-	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	public static final Logger LOGGER = LogManager.getFormatterLogger(MOD_ID);
 
 	public static final int COMPATIBLE_MANIFEST_VERSION = 0;
 
