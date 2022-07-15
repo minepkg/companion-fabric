@@ -13,6 +13,8 @@ subprojects {
 	apply plugin: 'fabric-loom'
 	apply plugin: 'com.github.johnrengelman.shadow'
 
+	sourceCompatibility = targetCompatibility = JavaVersion.toVersion(project.java_version as Integer)
+
 	archivesBaseName = project.archives_base_name
 	version = project.mod_version
 	group = project.maven_group
@@ -47,6 +49,10 @@ subprojects {
 		filesMatching("fabric.mod.json") {
 			expand "version": project.version
 		}
+	}
+
+	tasks.withType(JavaCompile).configureEach {
+		it.options.release = project.java_version as Integer
 	}
 
 	java {
