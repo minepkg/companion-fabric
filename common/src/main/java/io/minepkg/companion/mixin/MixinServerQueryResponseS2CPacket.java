@@ -31,6 +31,7 @@ public abstract class MixinServerQueryResponseS2CPacket {
     // A GSON object used to deserialize the custom metadata.
     private static final Gson CUSTOM_GSON = (new GsonBuilder())
             .registerTypeAdapter(CustomServerMetadata.class, new CustomServerMetadata.Serializer())
+            .registerTypeHierarchyAdapter(Modpack.class, new Modpack.Serializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Players.class, new ServerMetadata.Players.Deserializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Version.class, new ServerMetadata.Version.Serializer())
             .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())

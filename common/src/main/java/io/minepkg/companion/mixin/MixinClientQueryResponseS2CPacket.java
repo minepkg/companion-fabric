@@ -2,6 +2,7 @@ package io.minepkg.companion.mixin;
 
 import com.google.gson.*;
 import io.minepkg.companion.CustomServerMetadata;
+import io.minepkg.companion.Modpack;
 import io.minepkg.companion.events.EventServerQueryResponse;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.query.QueryResponseS2CPacket;
@@ -30,6 +31,7 @@ public abstract class MixinClientQueryResponseS2CPacket {
     // A GSON object used to serialize the custom metadata.
     private static final Gson CUSTOM_GSON = (new GsonBuilder())
             .registerTypeAdapter(CustomServerMetadata.class, new CustomServerMetadata.Serializer())
+            .registerTypeHierarchyAdapter(Modpack.class, new Modpack.Serializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Players.class, new ServerMetadata.Players.Deserializer())
             .registerTypeHierarchyAdapter(ServerMetadata.Version.class, new ServerMetadata.Version.Serializer())
             .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
