@@ -6,9 +6,6 @@ import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
-import net.minecraft.util.crash.CrashReport;
-import net.minecraft.world.level.storage.LevelStorage;
-import net.minecraft.world.level.storage.LevelStorage.LevelSave;
 import net.minecraft.world.level.storage.LevelStorageException;
 import net.minecraft.world.level.storage.LevelSummary;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,12 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-
 @Mixin(TitleScreen.class)
-public abstract class MixinClientTitleScreen {
+public abstract class MixinClientTitleScreen1_17 {
 	// Here, we add our code onto the end of the render method of the title screen (called many times per second)
 	@Inject(method = "render", at = @At("RETURN"))
 	private void onRenderTitleScreen (CallbackInfo ci) {
@@ -54,22 +47,19 @@ public abstract class MixinClientTitleScreen {
 
 	private void joinLocalWorld (String worldName) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		LevelStorage levelStorage = client.getLevelStorage();
 
 		try {
-			List<LevelSummary> levels = levelStorage.loadSummaries(levelStorage.getLevelList()).join();
-
-			for (LevelSummary level : levels) {
+			for (LevelSummary level : client.getLevelStorage().getLevelList()) {
 				// Check if the level is the one that we want to join
 				if (level.getName().equalsIgnoreCase(worldName)) {
 					// Start the integrated server on this level
-					client.createIntegratedServerLoader().start(client.currentScreen, level.getName());
+					client.startIntegratedServer(level.getName());
 					return;
 				}
 			}
 
 			MinepkgCompanion.LOGGER.warn("couldn't find local world {}", worldName);
-		} catch (CompletionException | LevelStorageException e) {
+		} catch (LevelStorageException e) {
 			MinepkgCompanion.LOGGER.error("couldn't load local world {}", worldName, e);
 		}
 	}
