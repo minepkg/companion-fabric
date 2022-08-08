@@ -18,4 +18,4 @@ lockfileVersion = 1
     Sha256 = "25f101fd22fba2e9078e43ea0ddc3e45017d9db0aa58f857b871b973631c0a85"
     url = "https://api.preview.minepkg.io/v1/releases/fabric/fabric@0.55.3+1.19.mpkg.1/download"
     provider = "minepkg"
-    dependend = ""
+    dependent = ""
