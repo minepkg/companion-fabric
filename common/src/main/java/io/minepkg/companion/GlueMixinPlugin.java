@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/** Applies the correct mixin for the given Minecraft version. */
 public class GlueMixinPlugin implements IMixinConfigPlugin {
 	public static final Logger LOGGER = LogManager.getLogger("glue");
 
