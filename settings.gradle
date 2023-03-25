@@ -15,3 +15,4 @@ pluginManagement {
 include 'common'
 include '1_17'
 include '1_19'
+include '1_19_4'

@@ -4,12 +4,13 @@
   "compatibilityLevel": "JAVA_16",
   "plugin": "io.minepkg.companion.GlueMixinPlugin",
   "mixins": [
-    "MixinServerQueryResponseS2CPacket"
+    "MixinServerQueryResponseS2CPacket_common"
   ],
   "client": [
     "MixinClientTitleScreen1_17",
     "MixinClientTitleScreen1_19",
-    "MixinClientQueryResponseS2CPacket"
+    "MixinClientTitleScreen1_19_4",
+    "MixinClientQueryResponseS2CPacket_common"
   ],
   "injectors": {
     "defaultRequire": 1

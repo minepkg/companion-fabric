@@ -37,21 +37,27 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		LOGGER.debug("trying to apply {}", mixinClassName);
+		LOGGER.info("trying to apply {}", mixinClassName);
 
-		if (test("minecraft", ">=1.17 <1.19")) {
-			if (mixinClassName.endsWith("MixinClientTitleScreen1_19")) {
-				LOGGER.debug("skipping");
-				return false;
-			}
-		} else if (test("minecraft", ">=1.19")) {
-			if (mixinClassName.endsWith("MixinClientTitleScreen1_17")) {
-				LOGGER.debug("skipping");
-				return false;
-			}
+		// common mixins, not version specific
+		if (mixinClassName.endsWith("common")) {
+			return true;
 		}
 
-		return true;
+		if (test("minecraft", ">=1.17 <1.19") && mixinClassName.endsWith("1_17")) {
+			return true;
+		}
+
+		if (test("minecraft", ">=1.19 <1.19.4") && mixinClassName.endsWith("1_19")) {
+			return true;
+		}
+
+		if (test("minecraft", ">=1.19.4") && mixinClassName.endsWith("1_19_4")) {
+			return true;
+		}
+
+		LOGGER.warn("unhandled mixin {}", mixinClassName);
+		return false;
 	}
 
 	@Override

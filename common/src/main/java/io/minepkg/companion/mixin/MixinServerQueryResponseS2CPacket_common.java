@@ -23,7 +23,7 @@ import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
 // Modifies the ClientQueryResponse packet class on the server's side
 // To send extra data containing modpack information
 @Mixin(QueryResponseS2CPacket.class)
-public abstract class MixinServerQueryResponseS2CPacket {
+public abstract class MixinServerQueryResponseS2CPacket_common {
     @Shadow
     @Final
     private ServerMetadata metadata;
