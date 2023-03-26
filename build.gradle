@@ -57,6 +57,10 @@ subprojects {
 		}
 	}
 
+	test {
+		useJUnitPlatform()
+	}
+
 	// configure the maven publication
 	publishing {
 		publications {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Objects;
 
 class MinepkgCompanionTest {
-    private final String MANIFEST_PATH = "./test-manifests/1.15/minepkg.toml";
+    private final String MANIFEST_PATH = "../test-manifests/1.15/minepkg.toml";
 
     @Test
     @DisplayName("Get manifest")
