@@ -1,40 +1,30 @@
 package io.minepkg.companion.events;
 
-import io.minepkg.companion.CustomServerMetadata;
 import io.minepkg.companion.MinepkgCompanion;
+import io.minepkg.companion.MinepkgServerMetadata;
 import io.minepkg.companion.Modpack;
 import net.minecraft.server.ServerMetadata;
 
 public class EventServerQueryResponse {
     /**
-     * Called whenever a vanilla/non-minepkg-modpack server responds with information about the server.
+     * Called whenever a server responds with information about the server.
      */
-    public static void onServerQueryResponse (ServerMetadata metadata) {
-        // There is no modpack. Currently doing nothing here, might be useful in the future.
-    }
+    public static void onServerQueryResponse(MinepkgServerMetadata customMetadata, ServerMetadata metadata) {
+        Modpack serverModpack = customMetadata.getModpack();
 
-    /**
-     * Called whenever a minepkg-modded server responds with information about the server and modpack.
-     */
-    public static void onCustomServerQueryResponse (CustomServerMetadata customMetadata, ServerMetadata metadata) {
+        if (serverModpack == null)
+            return;
+
         Modpack modpack = MinepkgCompanion.getModpack();
 
-        if (modpack == null) {
-            // We aren't running a minepkg modpack
-            return;
-        }
-
-        String modpackName = customMetadata.minepkgModpack.name();
-        String modpackVersion = customMetadata.minepkgModpack.version();
-
-        if (!modpack.name().equalsIgnoreCase(modpackName) ||
-            !modpack.version().equalsIgnoreCase(modpackVersion)) {
-            // Modpacks are different
+        if (modpack == null || !modpack.name().equalsIgnoreCase(serverModpack.name()) || !modpack.version().equalsIgnoreCase(serverModpack.version())) {
+            // We aren't running the same modpack as the server (or none at all)
             // Make Minecraft think that the server is out of date with a protocol version of -1
-            // It will then display the game version in red by the server name
-            String gameVersion = "Modpack: " + modpackName + "@" + modpackVersion;
+            // It will then display the modpack in red by the server name
+            String gameVersion = "Modpack: " + serverModpack.name() + "@" + serverModpack.version();
             ServerMetadata.Version version = new ServerMetadata.Version(gameVersion, -1);
-            metadata.setVersion(version);
+
+            MinepkgCompanion.INSTANCE.versionSetter.set(metadata, version);
 
             return;
         }

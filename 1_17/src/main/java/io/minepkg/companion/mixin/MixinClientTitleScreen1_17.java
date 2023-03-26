@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinClientTitleScreen1_17 {
 	// Here, we add our code onto the end of the render method of the title screen (called many times per second)
 	@Inject(method = "render", at = @At("RETURN"))
-	private void onRenderTitleScreen (CallbackInfo ci) {
+	private void tryJoinServerOrWorld(CallbackInfo ci) {
 		// (Prefixed) address of the server or world to join
 		String address = System.getenv("MINEPKG_COMPANION_PLAY");
 

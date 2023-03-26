@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /** Applies the correct mixin for the given Minecraft version. */
+@SuppressWarnings("RedundantCollectionOperation")
 public class GlueMixinPlugin implements IMixinConfigPlugin {
 	public static final Logger LOGGER = LogManager.getLogger("glue");
 
@@ -37,21 +38,37 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		LOGGER.debug("trying to apply {}", mixinClassName);
+		String mixinName = mixinClassName.substring(mixinClassName.lastIndexOf(".mixin") + ".mixin".length() + 1);
+		boolean shouldApply = false;
 
-		if (test("minecraft", ">=1.17 <1.19")) {
-			if (mixinClassName.endsWith("MixinClientTitleScreen1_19")) {
-				LOGGER.debug("skipping");
-				return false;
-			}
-		} else if (test("minecraft", ">=1.19")) {
-			if (mixinClassName.endsWith("MixinClientTitleScreen1_17")) {
-				LOGGER.debug("skipping");
-				return false;
-			}
+		// common
+		if (List.of("ServerMetadataMixin").contains(mixinName)) {
+			shouldApply = true;
 		}
 
-		return true;
+		// 1_17
+		if (List.of("MixinClientTitleScreen1_17").contains(mixinName)) {
+			shouldApply = test("minecraft", ">=1.17 <1.19");
+		}
+
+		// 1_19
+		if (List.of("MixinClientTitleScreen").contains(mixinName)) {
+			shouldApply = test("minecraft", ">=1.19");
+		}
+
+		// 1_19_3
+		if (List.of("MixinClientQueryResponseS2CPacket", "MixinServerQueryResponseS2CPacket", "ServerMetadataDeserializerMixin").contains(mixinName)) {
+			shouldApply = test("minecraft", "<1.19.4");
+		}
+
+		// 1_19_4
+		if (List.of("ServerMetadataMixin2", "QueryResponseS2CPacketMixin", "ServerMetadataAccessor").contains(mixinName)) {
+			shouldApply = test("minecraft", ">=1.19.4-pre1") || test("minecraft", "23w07a");
+		}
+
+		LOGGER.debug("{} {}", shouldApply ? "loading" : "skipping", mixinName);
+
+		return shouldApply;
 	}
 
 	@Override
