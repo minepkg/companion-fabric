@@ -1,6 +1,5 @@
 plugins {
 	id 'fabric-loom' version '0.12-SNAPSHOT' apply false
-	id 'com.github.johnrengelman.shadow' version '7.1.2' apply false
 	id 'maven-publish'
 	id 'glue' version '0.0.4'
 }
@@ -11,7 +10,6 @@ glue {
 
 subprojects {
 	apply plugin: 'fabric-loom'
-	apply plugin: 'com.github.johnrengelman.shadow'
 
 	sourceCompatibility = targetCompatibility = JavaVersion.toVersion(project.java_version as Integer)
 
@@ -23,20 +21,11 @@ subprojects {
 		mavenCentral()
 	}
 
-	configurations {
-		shadow
-	}
-
 	dependencies {
 		// To change the versions see the gradle.properties file
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
 		mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-		implementation "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
-		shadow("com.moandjiezana.toml:toml4j:${project.toml4j_version}") {
-			exclude(module: "gson")
-		}
 
 		// Testing engines
 		testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_jupiter_version}"
@@ -66,17 +55,6 @@ subprojects {
 		from("LICENSE") {
 			rename { "${it}_${project.archivesBaseName}"}
 		}
-	}
-
-	shadowJar {
-		relocate "com.moandjiezana.toml", "io.minepkg.companion.shadowed.com.moandjiezana.toml"
-		configurations = [project.configurations.shadow]
-		classifier "shadow"
-	}
-
-	remapJar {
-		dependsOn(shadowJar)
-		input.set(shadowJar.archiveFile)
 	}
 
 	// configure the maven publication

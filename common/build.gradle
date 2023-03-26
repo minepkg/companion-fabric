@@ -1,0 +1,5 @@
+dependencies {
+	include modApi("com.moandjiezana.toml:toml4j:${project.toml4j_version}") {
+		exclude(module: "gson")
+	}
+}
