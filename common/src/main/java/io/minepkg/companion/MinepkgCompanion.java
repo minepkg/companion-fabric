@@ -2,8 +2,10 @@ package io.minepkg.companion;
 
 import com.moandjiezana.toml.Toml;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.server.ServerMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -19,6 +21,7 @@ public class MinepkgCompanion implements ModInitializer {
 	public String fallbackManifestPath = "./minepkg.toml";
 	private Modpack modpack;
 	private boolean modpackCached = false;
+	public ServerMetadataVersionSetter versionSetter;
 
 	@Override
 	public void onInitialize () {
@@ -27,6 +30,11 @@ public class MinepkgCompanion implements ModInitializer {
 		// Proceed with mild caution.
 
 		INSTANCE = this;
+
+		if (GlueMixinPlugin.test("minecraft", "<1.19.4")) {
+			versionSetter = ServerMetadata::setVersion;
+		}
+
 		LOGGER.info("minepkg companion ready");
 	}
 
@@ -34,6 +42,7 @@ public class MinepkgCompanion implements ModInitializer {
 	 * Checks for and parses the minepkg.toml file.
 	 * @return The parsed TOML from the minepkg.toml file. Returns null when the file doesn't exist.
 	 */
+	@Nullable
 	public static Toml getToml (String path) {
 		File file = new File(path);
 
@@ -49,6 +58,7 @@ public class MinepkgCompanion implements ModInitializer {
 	 * Gets the modpack that's being ran.
 	 * @return The modpack. Returns null when we aren't running a minepkg modpack.
 	 */
+	@Nullable
 	public static Modpack getModpack () {
 
 		// only read the manifest once

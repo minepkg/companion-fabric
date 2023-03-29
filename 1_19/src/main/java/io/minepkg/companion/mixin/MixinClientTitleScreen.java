@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.concurrent.CompletionException;
 
 @Mixin(TitleScreen.class)
-public abstract class MixinClientTitleScreen1_19 {
+public abstract class MixinClientTitleScreen {
 	// Here, we add our code onto the end of the render method of the title screen (called many times per second)
 	@Inject(method = "render", at = @At("RETURN"))
-	private void onRenderTitleScreen (CallbackInfo ci) {
+	private void tryJoinServerOrWorld(CallbackInfo ci) {
 		// (Prefixed) address of the server or world to join
 		String address = System.getenv("MINEPKG_COMPANION_PLAY");
 
