@@ -19,7 +19,8 @@
   "entrypoints": {
     "main": [
       "io.minepkg.companion.MinepkgCompanion",
-      "io.minepkg.companion.MinepkgCompanion1_19_4"
+						"io.minepkg.companion.MinepkgCompanion1_19_4",
+						"io.minepkg.companion.MinepkgCompanion1_20"
     ]
   },
   "mixins": [
