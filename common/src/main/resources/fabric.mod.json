@@ -1,32 +1,28 @@
 {
-  "schemaVersion": 1,
-  "id": "minepkg-companion",
-  "version": "${version}",
-  "name": "minepkg-companion",
-  "description": "A companion mod for minepkg. It would be lonely without it.",
-  "contact": {
-    "email": "info@minepkg.io",
-    "homepage": "https://minepkg.io/",
-    "issues": "https://github.com/minepkg/fabric-companion/issues",
-    "sources": "https://github.com/minepkg/fabric-companion.git"
-  },
-  "authors": [
-    "jasonhaxstuff"
-  ],
-  "license": "MIT",
-  "icon": "assets/minepkg-companion/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "io.minepkg.companion.MinepkgCompanion",
-						"io.minepkg.companion.MinepkgCompanion1_19_4",
-						"io.minepkg.companion.MinepkgCompanion1_20"
-    ]
-  },
-  "mixins": [
-    "minepkg-companion.mixins.json"
-  ],
-  "depends": {
-    "fabricloader": ">=0.12.0"
-  }
+	"schemaVersion": 1,
+	"id": "minepkg-companion",
+	"version": "${version}",
+	"name": "minepkg-companion",
+	"description": "A companion mod for minepkg. It would be lonely without it.",
+	"contact": {
+		"email": "info@minepkg.io",
+		"homepage": "https://minepkg.io/",
+		"issues": "https://github.com/minepkg/fabric-companion/issues",
+		"sources": "https://github.com/minepkg/fabric-companion.git"
+	},
+	"authors": ["jasonhaxstuff"],
+	"license": "MIT",
+	"icon": "assets/minepkg-companion/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.minepkg.companion.MinepkgCompanion",
+			"io.minepkg.companion.MinepkgCompanion1_19_4"
+		],
+		"main[>=1.20]": ["io.minepkg.companion.MinepkgCompanion1_20"]
+	},
+	"mixins": ["minepkg-companion.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.12.0"
+	}
 }
