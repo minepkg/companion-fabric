@@ -1,11 +1,11 @@
 plugins {
-	id 'fabric-loom' version '1.1-SNAPSHOT' apply false
+	id 'fabric-loom' version '1.10-SNAPSHOT' apply false
 	id 'maven-publish'
 	id 'glue' version '0.0.4'
 }
 
 glue {
-	targets = ['common', '1_17', '1_19', '1_19_3', '1_19_4', '1_20']
+	targets = ['common', '1_17', '1_19', '1_19_3', '1_19_4']
 }
 
 subprojects {
