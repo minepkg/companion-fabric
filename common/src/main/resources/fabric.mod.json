@@ -18,8 +18,7 @@
 		"main": [
 			"io.minepkg.companion.MinepkgCompanion",
 			"io.minepkg.companion.MinepkgCompanion1_19_4"
-		],
-		"main[>=1.20]": ["io.minepkg.companion.MinepkgCompanion1_20"]
+		]
 	},
 	"mixins": ["minepkg-companion.mixins.json"],
 	"depends": {

@@ -66,11 +66,6 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 			shouldApply = test("minecraft", ">=1.19.4-pre1") || test("minecraft", "23w07a");
 		}
 
-		// 1_20
-		if (List.of("MixinClientTitleScreen1_20").contains(mixinName)) { // Add condition for 1.20 client mixin
-			shouldApply = test("minecraft", ">=1.20");
-		}
-
 		LOGGER.debug("{} {}", shouldApply ? "loading" : "skipping", mixinName);
 
 		return shouldApply;
