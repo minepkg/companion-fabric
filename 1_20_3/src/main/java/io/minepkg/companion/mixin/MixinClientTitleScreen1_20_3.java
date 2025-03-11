@@ -1,24 +1,25 @@
 package io.minepkg.companion.mixin;
 
-import io.minepkg.companion.MinepkgCompanion;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConnectScreen;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.network.ServerAddress;
-import net.minecraft.client.network.ServerInfo;
-import net.minecraft.world.level.storage.LevelStorage;
-import net.minecraft.world.level.storage.LevelStorageException;
-import net.minecraft.world.level.storage.LevelSummary;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+	import io.minepkg.companion.MinepkgCompanion;
+	import net.minecraft.client.MinecraftClient;
+	import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
+	import net.minecraft.client.gui.screen.TitleScreen;
+	import net.minecraft.client.network.ServerAddress;
+	import net.minecraft.client.network.ServerInfo;
+	import net.minecraft.client.network.ServerInfo.ServerType;
+	import net.minecraft.world.level.storage.LevelStorage;
+	import net.minecraft.world.level.storage.LevelStorageException;
+	import net.minecraft.world.level.storage.LevelSummary;
+	import org.spongepowered.asm.mixin.Mixin;
+	import org.spongepowered.asm.mixin.injection.At;
+	import org.spongepowered.asm.mixin.injection.Inject;
+	import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
 @Mixin(TitleScreen.class)
-public abstract class MixinClientTitleScreen1_20 {
+public abstract class MixinClientTitleScreen1_20_3 {
 	// Here, we add our code onto the end of the render method of the title screen (called many times per second)
 	@Inject(method = "render", at = @At("RETURN"))
 	private void tryJoinServerOrWorld(net.minecraft.client.gui.DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) { // Modified parameters
@@ -50,7 +51,7 @@ public abstract class MixinClientTitleScreen1_20 {
 	}
 
 	private void joinLocalWorld (String worldName) {
-		System.out.println("Using Title screen 1.20");
+		System.out.println("Using Title screen 1.20.3");
 		MinecraftClient client = MinecraftClient.getInstance();
 		LevelStorage levelStorage = client.getLevelStorage();
 
@@ -61,7 +62,7 @@ public abstract class MixinClientTitleScreen1_20 {
 				// Check if the level is the one that we want to join
 				if (level.getName().equalsIgnoreCase(worldName)) {
 					// Start the integrated server on this level
-					client.createIntegratedServerLoader().start(client.currentScreen, level.getName());
+					client.createIntegratedServerLoader().start(level.getName(), () -> {}); // Passing empty Runnable
 					return;
 				}
 			}
@@ -75,7 +76,7 @@ public abstract class MixinClientTitleScreen1_20 {
 	private void joinServer (String hostname) {
     MinecraftClient client = MinecraftClient.getInstance();
     // Create a server entry
-    ServerInfo entry = new ServerInfo(hostname, hostname, true);
+    ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER
     // Join the server
     ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false); // Added ", false" at the end
 	}

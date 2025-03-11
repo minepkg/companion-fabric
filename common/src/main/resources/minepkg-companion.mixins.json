@@ -8,6 +8,7 @@
 		"ServerMetadataDeserializerMixin",
 		"ServerMetadataMixin",
 		"ServerMetadataMixin2",
+		"ServerMetadataMixin3",
 		"ServerMetadataAccessor",
 		"QueryResponseS2CPacketMixin"
 	],
@@ -15,6 +16,7 @@
 		"MixinClientTitleScreen1_17",
 		"MixinClientTitleScreen",
 		"MixinClientTitleScreen1_20",
+		"MixinClientTitleScreen1_20_3",
 		"MixinClientQueryResponseS2CPacket"
 	],
 	"injectors": {

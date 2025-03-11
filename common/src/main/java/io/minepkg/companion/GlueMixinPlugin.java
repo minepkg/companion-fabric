@@ -68,10 +68,16 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 
 		// 1_20
 		if (List.of("MixinClientTitleScreen1_20").contains(mixinName)) { // Add condition for 1.20 client mixin
-			shouldApply = test("minecraft", ">=1.20");
+			shouldApply = test("minecraft", ">=1.20 < 1.20.3");
 		}
 
-		LOGGER.debug("{} {}", shouldApply ? "loading" : "skipping", mixinName);
+		// 1_20_3
+		if (List.of("MixinClientTitleScreen1_20_3", "ServerMetadataMixin3").contains(mixinName)) { // Add condition for 1.20.3 client mixin
+			shouldApply = test("minecraft", ">=1.20.3");
+		}
+
+
+		LOGGER.info("{} {}", shouldApply ? "loading" : "skipping", mixinName);
 
 		return shouldApply;
 	}
