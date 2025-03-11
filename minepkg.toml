@@ -6,7 +6,7 @@ manifestVersion = 0
   type = "mod"
   name = "minepkg-companion"
   description = "A helper mod for minepkg. It would be lonely without it."
-  version = "0.7.0"
+  version = "0.7.1"
   platform = "fabric"
   license = "MIT"
 
@@ -22,4 +22,4 @@ manifestVersion = 0
   buildCommand = "./gradlew build"
 
   [dev.dependencies]
-    fabric = "*"
+    #fabric = "*"
