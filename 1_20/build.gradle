@@ -1,0 +1,4 @@
+dependencies {
+	implementation project(path: ':common', configuration: 'namedElements')
+	implementation project(path: ':common1_19_4', configuration: 'namedElements')
+}

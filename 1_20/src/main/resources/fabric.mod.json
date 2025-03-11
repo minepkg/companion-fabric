@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "minepkg-companion",
+  "version": "${version}",
+  "mixins": [
+    "minepkg-companion.1_20.mixins.json"
+  ]
+}

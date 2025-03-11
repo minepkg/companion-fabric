@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "io.minepkg.companion.mc1_20.mixin",
+  "compatibilityLevel": "JAVA_${min_java_version}",
+  "plugin": "io.minepkg.companion.common.GlueMixinPlugin",
+  "client": [
+    "MixinClientTitleScreen"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
