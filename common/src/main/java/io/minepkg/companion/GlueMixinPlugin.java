@@ -63,37 +63,36 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 
 		// 1_19_4
 		if (List.of("ServerMetadataMixin2").contains(mixinName)) {
-			shouldApply = test("minecraft", ">=1.19.4-pre1 < 1.20.3") || test("minecraft", "23w07a");
+			shouldApply = test("minecraft", ">=1.19.4-pre1 <1.20.3") || test("minecraft", "23w07a");
 		}
 		if (List.of("QueryResponseS2CPacketMixin", "ServerMetadataAccessor").contains(mixinName)) {
 			shouldApply = test("minecraft", ">=1.19.4-pre1") || test("minecraft", "23w07a");
 		}
 	
-
 		// 1_20
 		if (List.of("MixinClientTitleScreen1_20").contains(mixinName)) { // Add condition for 1.20 client mixin
-			shouldApply = test("minecraft", ">=1.20.0") && test("minecraft", "<1.20.3");
+			shouldApply = test("minecraft", ">=1.20.0 <1.20.3");
 		}
 
 		// 1_20_3
 		if (List.of("MixinClientTitleScreen1_20_3").contains(mixinName)) { // Add condition for 1.20.3 client mixin
-			shouldApply = test("minecraft", ">=1.20.3") && test("minecraft", "<1.20.5");
+			shouldApply = test("minecraft", ">=1.20.3 <1.20.5");
 		}
 		if (List.of("ServerMetadataMixin3").contains(mixinName)) { // Add condition for 1.20.3 client mixin
 			shouldApply = test("minecraft", ">=1.20.3");
 		}
 
-		
 		// 1_20_5
-		if (List.of("MixinClientTitleScreen1_20_5").contains(mixinName)) { // Add condition for 1.20.5 client mixin
+		if (List.of("MixinClientTitleScreen1_20_5", "ConnectScreenMixin").contains(mixinName)) { // Add condition for 1.20.5 client mixin
 			shouldApply = test("minecraft", ">=1.20.5");
 		}
 
-		final String RESET = "\u001B[0m";
-		final String GREEN = "\u001B[32m";
-		final String RED = "\u001B[31m";
-		
-		LOGGER.info("{} {}", shouldApply ? GREEN + "loading" : RED + "skipping", mixinName + RESET);
+		// Uncomment to print with colors
+		// final String RESET = "\u001B[0m";
+		// final String GREEN = "\u001B[32m";
+		// final String RED = "\u001B[31m";
+		// LOGGER.info("{} {}", shouldApply ? GREEN + "loading" : RED + "skipping", mixinName + RESET);
+		LOGGER.debug("{} {}", shouldApply ? "loading" : "skipping", mixinName);
 
 		return shouldApply;
 	}
