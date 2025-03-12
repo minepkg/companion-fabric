@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.client.network.CookieStorage; // Add this import
 
 import java.util.List;
 import java.util.concurrent.CompletionException;
@@ -76,8 +75,11 @@ public abstract class MixinClientTitleScreen1_20_5 {
 	private void joinServer (String hostname) {
     MinecraftClient client = MinecraftClient.getInstance();
     // Create a server entry
-    ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER
+    ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER);
     // Join the server
-    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false, null); // Added ", false" at the end
+    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false, null); 
+		// Screen, MinecraftClient, ServerAddress, ServerInfo, boolean Quickplay, @Nullable CookieStorage
+		// Cookie storage required since 1.20.5+
+		// See https://maven.fabricmc.net/docs/yarn-1.20.5+build.1/net/minecraft/client/gui/screen/multiplayer/ConnectScreen.html#connect(net.minecraft.client.gui.screen.Screen,net.minecraft.client.MinecraftClient,net.minecraft.client.network.ServerAddress,net.minecraft.client.network.ServerInfo,boolean,net.minecraft.client.network.CookieStorage)
 	}
 }

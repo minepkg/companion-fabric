@@ -23,4 +23,4 @@ manifestVersion = 0
   jar = "build/libs/MinepkgCompanion-0.8.0.jar"
 
   [dev.dependencies]
-  # fabric = *
+  #fabric = "*" # Consider adding this back once fabric 1.20+ is supported on mpkg 

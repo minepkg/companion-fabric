@@ -61,7 +61,7 @@ public abstract class MixinClientTitleScreen1_20_3 {
 				// Check if the level is the one that we want to join
 				if (level.getName().equalsIgnoreCase(worldName)) {
 					// Start the integrated server on this level
-					client.createIntegratedServerLoader().start(level.getName(), () -> {}); // Passing empty Runnable
+					client.createIntegratedServerLoader().start(level.getName(), () -> {}); // Passing empty Runnable - required for 1.20.3+ See https://maven.fabricmc.net/docs/yarn-1.20.3+build.1/net/minecraft/server/integrated/IntegratedServerLoader.html#start(net.minecraft.world.level.storage.LevelStorage.Session,java.lang.Runnable)
 					return;
 				}
 			}
@@ -75,8 +75,10 @@ public abstract class MixinClientTitleScreen1_20_3 {
 	private void joinServer (String hostname) {
     MinecraftClient client = MinecraftClient.getInstance();
     // Create a server entry
-    ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER
-    // Join the server
-    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false); // Added ", false" at the end
+    ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER - required since 1.20.3
+		// See https://maven.fabricmc.net/docs/yarn-1.20.3+build.1/net/minecraft/client/network/ServerInfo.html
+    
+		// Join the server
+    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false); 
 	}
 }

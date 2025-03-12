@@ -7,7 +7,7 @@ import io.minepkg.companion.ModpackCodec;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.server.ServerMetadata;
 import net.minecraft.text.TextCodecs; // Import TextCodecs!
-// import net.minecraft.util.dynamic.Codecs; // You can likely remove this import
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

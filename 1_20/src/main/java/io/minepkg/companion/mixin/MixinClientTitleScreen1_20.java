@@ -76,6 +76,8 @@ public abstract class MixinClientTitleScreen1_20 {
     // Create a server entry
     ServerInfo entry = new ServerInfo(hostname, hostname, true);
     // Join the server
-    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false); // Added ", false" at the end
+    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false); 
+		// Added ", false" at the end (required boolean for quickplay). 
+		// See https://maven.fabricmc.net/docs/yarn-1.20-pre4+build.2/net/minecraft/client/gui/screen/ConnectScreen.html#connect(net.minecraft.client.gui.screen.Screen,net.minecraft.client.MinecraftClient,net.minecraft.client.network.ServerAddress,net.minecraft.client.network.ServerInfo,boolean)
 	}
 }
