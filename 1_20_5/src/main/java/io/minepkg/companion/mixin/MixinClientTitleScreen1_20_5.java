@@ -2,7 +2,6 @@ package io.minepkg.companion.mixin;
 
 import io.minepkg.companion.MinepkgCompanion;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
@@ -16,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.network.CookieStorage; // Add this import
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
@@ -83,7 +81,6 @@ public abstract class MixinClientTitleScreen1_20_5 {
     // Create a server entry
     ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER
     // Join the server 
-		// TODO: make this work again
-    //ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false); // Added ", false" at the end
+    ConnectScreenMixin.invokeConnect(client, ServerAddress.parse(hostname), entry, new CookieStorage(null));
 	}
 }

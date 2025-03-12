@@ -10,7 +10,8 @@
 		"ServerMetadataMixin2",
 		"ServerMetadataMixin3",
 		"ServerMetadataAccessor",
-		"QueryResponseS2CPacketMixin"
+		"QueryResponseS2CPacketMixin",
+		"ConnectScreenMixin"
 	],
 	"client": [
 		"MixinClientTitleScreen1_17",
