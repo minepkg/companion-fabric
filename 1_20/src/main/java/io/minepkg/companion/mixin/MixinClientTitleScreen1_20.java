@@ -48,12 +48,8 @@ public abstract class MixinClientTitleScreen1_20 {
 			joinServer(address);
 		}
 	}
-	private static final String RESET = "\u001B[0m";
-	private static final String GREEN = "\u001B[32m";
-	private static final String RED = "\u001B[31m";
 
 	private void joinLocalWorld (String worldName) {
-		System.out.println(GREEN + "Using Title screen 1.20" + RESET);
 		MinecraftClient client = MinecraftClient.getInstance();
 		LevelStorage levelStorage = client.getLevelStorage();
 
@@ -69,9 +65,9 @@ public abstract class MixinClientTitleScreen1_20 {
 				}
 			}
 
-			MinepkgCompanion.LOGGER.warn(RED + "couldn't find local world {}" + RESET, worldName);
+			MinepkgCompanion.LOGGER.warn("couldn't find local world {}" + worldName);
 		} catch (CompletionException | LevelStorageException e) {
-			MinepkgCompanion.LOGGER.error(RED + "couldn't load local world {}" + RESET, worldName, e);
+			MinepkgCompanion.LOGGER.error("couldn't load local world {}" + worldName, e);
 		}
 	}
 

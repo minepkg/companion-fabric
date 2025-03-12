@@ -51,7 +51,6 @@ public abstract class MixinClientTitleScreen1_20_3 {
 	}
 
 	private void joinLocalWorld (String worldName) {
-		System.out.println("Using Title screen 1.20.3");
 		MinecraftClient client = MinecraftClient.getInstance();
 		LevelStorage levelStorage = client.getLevelStorage();
 
