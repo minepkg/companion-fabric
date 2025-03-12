@@ -3,6 +3,7 @@ package io.minepkg.companion.mixin;
 import io.minepkg.companion.MinepkgCompanion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.network.ServerInfo.ServerType;
@@ -76,8 +77,7 @@ public abstract class MixinClientTitleScreen1_20_5 {
     MinecraftClient client = MinecraftClient.getInstance();
     // Create a server entry
     ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER
-    // TODO: Fix this. Not working because Accessor method is static but the target is not.
-		// Join the server 
-    ConnectScreenMixin.invokeConnect(client, ServerAddress.parse(hostname), entry, new CookieStorage(null));
+    // Join the server
+    ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false, null); // Added ", false" at the end
 	}
 }

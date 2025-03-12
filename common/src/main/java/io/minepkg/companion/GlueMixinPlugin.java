@@ -83,7 +83,7 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 		}
 
 		// 1_20_5
-		if (List.of("MixinClientTitleScreen1_20_5", "ConnectScreenMixin").contains(mixinName)) { // Add condition for 1.20.5 client mixin
+		if (List.of("MixinClientTitleScreen1_20_5").contains(mixinName)) { // Add condition for 1.20.5 client mixin
 			shouldApply = test("minecraft", ">=1.20.5");
 		}
 
