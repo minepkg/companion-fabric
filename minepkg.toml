@@ -20,6 +20,7 @@ manifestVersion = 0
 
 [dev]
   buildCommand = "./gradlew build"
+  jar = "build/libs/MinepkgCompanion-0.8.0.jar"
 
   [dev.dependencies]
   # fabric = *

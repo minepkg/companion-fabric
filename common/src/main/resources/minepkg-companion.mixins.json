@@ -17,6 +17,7 @@
 		"MixinClientTitleScreen",
 		"MixinClientTitleScreen1_20",
 		"MixinClientTitleScreen1_20_3",
+		"MixinClientTitleScreen1_20_5",
 		"MixinClientQueryResponseS2CPacket"
 	],
 	"injectors": {
