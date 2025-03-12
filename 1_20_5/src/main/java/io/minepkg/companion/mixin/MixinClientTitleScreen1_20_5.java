@@ -49,12 +49,8 @@ public abstract class MixinClientTitleScreen1_20_5 {
 			joinServer(address);
 		}
 	}
-	private static final String RESET = "\u001B[0m";
-	private static final String GREEN = "\u001B[32m";
-	private static final String RED = "\u001B[31m";
 
 	private void joinLocalWorld (String worldName) {
-		System.out.println(GREEN + "Using Title screen 1.20.5" + RESET);
 		MinecraftClient client = MinecraftClient.getInstance();
 		LevelStorage levelStorage = client.getLevelStorage();
 
@@ -80,7 +76,8 @@ public abstract class MixinClientTitleScreen1_20_5 {
     MinecraftClient client = MinecraftClient.getInstance();
     // Create a server entry
     ServerInfo entry = new ServerInfo(hostname, hostname, ServerType.OTHER); // Added ServerType.OTHER
-    // Join the server 
+    // TODO: Fix this. Not working because Accessor method is static but the target is not.
+		// Join the server 
     ConnectScreenMixin.invokeConnect(client, ServerAddress.parse(hostname), entry, new CookieStorage(null));
 	}
 }
