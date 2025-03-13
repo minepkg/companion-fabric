@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "minepkg-companion",
   "version": "${version}",
-  "name": "minepkg-companion",
   "description": "A companion mod for minepkg. It would be lonely without it.",
   "contact": {
     "email": "info@minepkg.io",
@@ -11,6 +10,7 @@
     "sources": "https://github.com/minepkg/fabric-companion.git"
   },
   "authors": [
+    "Fourmisain",
     "jasonhaxstuff"
   ],
   "license": "MIT",
@@ -18,14 +18,20 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.minepkg.companion.MinepkgCompanion",
-      "io.minepkg.companion.MinepkgCompanion1_19_4"
+      "io.minepkg.companion.common.MinepkgCompanion"
     ]
   },
   "mixins": [
-    "minepkg-companion.mixins.json"
+    "minepkg-companion.common.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.12.0"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
   }
 }

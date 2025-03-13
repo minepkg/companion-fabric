@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "minepkg-companion",
+  "version": "${version}",
+  "entrypoints": {
+    "client": [
+      "io.minepkg.companion.common1_19_4.MinepkgCompanion"
+    ],
+    "server": [
+      "io.minepkg.companion.common1_19_4.MinepkgCompanion"
+    ]
+  },
+  "mixins": [
+    "minepkg-companion.common1_19_4.mixins.json"
+  ]
+}

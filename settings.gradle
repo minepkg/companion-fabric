@@ -5,8 +5,8 @@ pluginManagement {
             url = 'https://maven.fabricmc.net/'
         }
         maven {
-            name "Fourmisain's Maven"
-            url "https://gitlab.com/api/v4/projects/37712942/packages/maven"
+            name = "Fourmisain's Maven"
+            url = "https://gitlab.com/api/v4/projects/37712942/packages/maven"
         }
         gradlePluginPortal()
     }
@@ -15,5 +15,8 @@ pluginManagement {
 include 'common'
 include '1_17'
 include '1_19'
-include '1_19_3'
+include 'common1_19_4'
 include '1_19_4'
+include '1_20'
+include '1_20_3'
+include '1_20_5'

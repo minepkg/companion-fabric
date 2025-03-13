@@ -6,13 +6,13 @@ manifestVersion = 0
   type = "mod"
   name = "minepkg-companion"
   description = "A helper mod for minepkg. It would be lonely without it."
-  version = "0.7.0"
+  version = "0.8.0"
   platform = "fabric"
   license = "MIT"
 
 # These are global requirements
 [requirements]
-  minecraft = "~1.17.0-0 || ~1.18.0-0 || ~1.19.0-0"
+  minecraft = "~1.17.0-0 || ~1.18.0-0 || ~1.19.0-0 || ~1.20.0-0 || ~1.21.0-0"
   fabricLoader = "*"
   minepkgCompanion = "none"
 
@@ -20,6 +20,3 @@ manifestVersion = 0
 
 [dev]
   buildCommand = "./gradlew build"
-
-  [dev.dependencies]
-    fabric = "*"
