@@ -11,11 +11,15 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 
+import static java.util.Arrays.asList;
+
 /** Applies the correct mixin for the given Minecraft version. */
-@SuppressWarnings("RedundantCollectionOperation")
+@SuppressWarnings({"ArraysAsListWithZeroOrOneArgument"})
 public class GlueMixinPlugin implements IMixinConfigPlugin {
 	public static final Logger LOGGER = LogManager.getLogger("glue");
 
@@ -26,7 +30,7 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 	public static boolean test(String modId, String versionRange) {
 		try {
 			Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(modId);
-			if (container.isEmpty())
+			if (!container.isPresent())
 				return false;
 
 			VersionPredicate pred = VersionPredicate.parse(versionRange);
@@ -39,73 +43,87 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 		}
 	}
 
+	@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
 		// pattern: io.minepkg.companion.<project>.mixin.<mixin>
-		List<String> parts = Arrays.asList(mixinClassName.split(Pattern.quote(".")));
+		List<String> parts = asList(mixinClassName.split(Pattern.quote(".")));
 		String projectName = parts.get(3);
 		String mixinName = parts.get(5);
 
 		Boolean shouldApply = null;
 
+		// 1.12: Java 8
+		// 1.17: Java 16
+		// 1.18: Java 17
+		// 1.20.5: Java 21
+
 		switch (projectName) {
-			case "common" -> {
-				if (List.of("ServerMetadataMixin").contains(mixinName)) {
+			case "common":
+				if (asList("ServerMetadataMixin").contains(mixinName)) {
 					shouldApply = true;
 				}
-			}
-			case "mc1_17" -> {
-				if (List.of("MixinClientTitleScreen").contains(mixinName)) {
+				break;
+			case "mc1_16":
+				if (asList("MixinClientTitleScreen").contains(mixinName) ||
+					asList("MixinClientQueryResponseS2CPacket", "MixinServerQueryResponseS2CPacket", "ServerMetadataDeserializerMixin").contains(mixinName)) {
+					shouldApply = testMinecraft("~1.16");
+				}
+
+				break;
+			case "mc1_17":
+				if (asList("MixinClientTitleScreen").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.17 <1.19");
 				}
 
-				if (List.of("MixinClientQueryResponseS2CPacket", "MixinServerQueryResponseS2CPacket", "ServerMetadataDeserializerMixin").contains(mixinName)) {
+				if (asList("MixinClientQueryResponseS2CPacket", "MixinServerQueryResponseS2CPacket", "ServerMetadataDeserializerMixin").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.17 <1.19.4");
 				}
-			}
-			case "mc1_19" -> {
-				if (List.of("MixinClientTitleScreen").contains(mixinName)) {
+				break;
+			case "mc1_19":
+				if (asList("MixinClientTitleScreen").contains(mixinName)) {
 					shouldApply = testMinecraft("~1.19");
 				}
-			}
-			case "common1_19_4" -> {
-				if (List.of("ServerMetadataAccessor").contains(mixinName)) {
+				break;
+			case "common1_19_4":
+				if (asList("ServerMetadataAccessor").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.19.4");
 				}
-			}
-			case "mc1_19_4" -> {
-				if (List.of("ServerMetadataMixin").contains(mixinName)) {
+				break;
+			case "mc1_19_4":
+				if (asList("ServerMetadataMixin").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.19.4-pre1 <1.20.3") || testMinecraft("23w07a");
 				}
 
-				if (List.of("QueryResponseS2CPacketMixin").contains(mixinName)) {
+				if (asList("QueryResponseS2CPacketMixin").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.19.4-pre1") || testMinecraft("23w07a");
 				}
-			}
-			case "mc1_20" -> {
-				if (List.of("MixinClientTitleScreen").contains(mixinName)) {
+				break;
+			case "mc1_20":
+				if (asList("MixinClientTitleScreen").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.20 <1.20.3");
 				}
-			}
-			case "mc1_20_3" -> {
-				if (List.of("MixinClientTitleScreen").contains(mixinName)) {
+				break;
+			case "mc1_20_3":
+				if (asList("MixinClientTitleScreen").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.20.3 <1.20.5");
 				}
 
-				if (List.of("ServerMetadataMixin").contains(mixinName)) {
+				if (asList("ServerMetadataMixin").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.20.3");
 				}
-			}
-			case "mc1_20_5" -> {
-				if (List.of("MixinClientTitleScreen").contains(mixinName)) {
+				break;
+			case "mc1_20_5":
+				if (asList("MixinClientTitleScreen").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.20.5");
 				}
-			}
-			default -> throw new AssertionError("mixin plugin: project %s has no case!".formatted(projectName));
+				break;
+			default:
+				throw new AssertionError(String.format("mixin plugin: project %s has no case!", projectName));
 		}
 
 		if (shouldApply == null) {
-			throw new AssertionError("mixin %s from %s has no set version range!".formatted(mixinName, projectName));
+			throw new AssertionError(String.format("mixin %s from %s has no set version range!", mixinName, projectName));
 		}
 
 		LOGGER.debug("{} {} {}", shouldApply ? "applying" : "skipping", projectName, mixinName);
