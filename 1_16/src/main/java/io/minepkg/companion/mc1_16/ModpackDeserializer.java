@@ -1,4 +1,4 @@
-package io.minepkg.companion.mc1_17;
+package io.minepkg.companion.mc1_16;
 
 import com.google.gson.*;
 import io.minepkg.companion.common.Modpack;
@@ -6,7 +6,7 @@ import net.minecraft.util.JsonHelper;
 
 import java.lang.reflect.Type;
 
-public record ModpackDeserializer() implements JsonDeserializer<Modpack>, JsonSerializer<Modpack> {
+public class ModpackDeserializer implements JsonDeserializer<Modpack>, JsonSerializer<Modpack> {
 	public Modpack deserialize (JsonElement json, Type type, JsonDeserializationContext ctx) throws JsonParseException {
 		JsonObject obj = JsonHelper.asObject(json, "minepkgModpack");
 		return new Modpack(JsonHelper.getString(obj, "name"), JsonHelper.getString(obj, "version"),
