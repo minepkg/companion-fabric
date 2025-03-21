@@ -27,6 +27,10 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 		return test("minecraft", versionRange);
 	}
 
+	public static boolean testJava(String versionRange) {
+		return test("java", versionRange);
+	}
+
 	public static boolean test(String modId, String versionRange) {
 		try {
 			Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(modId);
