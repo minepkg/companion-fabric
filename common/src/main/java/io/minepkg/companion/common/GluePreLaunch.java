@@ -1,7 +1,17 @@
 package io.minepkg.companion.common;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.fabricmc.loader.api.metadata.CustomValue;
 import org.spongepowered.asm.mixin.Mixins;
+
+import java.io.Reader;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.util.Map;
 
 import static io.minepkg.companion.common.GlueMixinPlugin.testJava;
 
@@ -15,30 +25,43 @@ public class GluePreLaunch implements PreLaunchEntrypoint {
 
 		GlueMixinPlugin.LOGGER.debug("adding mixin configs...");
 
-		if (testJava(">=21")) {
-			addMixinConfig("minepkg-companion.1_20_5.mixins.json");
+		CustomValue.CvArray mixinConfigs;
+		FileSystem fileSystem;
+
+		try {
+			ModContainer modContainer = FabricLoader.getInstance().getModContainer("minepkg-companion").get();
+			mixinConfigs = modContainer.getMetadata().getCustomValue("glue").getAsObject().get("mixins").getAsArray();
+
+			fileSystem = modContainer.getRootPaths().get(0).getFileSystem();
+		} catch (Exception e) {
+			throw new AssertionError("couldn't get mixin configs", e);
 		}
 
-		if (testJava(">=17")) {
-			addMixinConfig("minepkg-companion.1_20_3.mixins.json");
-			addMixinConfig("minepkg-companion.1_20.mixins.json");
-			addMixinConfig("minepkg-companion.1_19_4.mixins.json");
-			addMixinConfig("minepkg-companion.1_19.mixins.json");
-			addMixinConfig("minepkg-companion.common1_19_4.mixins.json");
-		}
+		for (CustomValue customValue : mixinConfigs) {
+			String mixinConfig;
 
-		if (testJava(">=16")) {
-			addMixinConfig("minepkg-companion.1_17.mixins.json");
-		}
+			try {
+				mixinConfig = customValue.getAsString();
+			} catch (ClassCastException e) {
+				throw new AssertionError("mixin config not defined as string but as " + customValue.getType(), e);
+			}
 
-		if (testJava(">=8")) {
-			addMixinConfig("minepkg-companion.1_16.mixins.json");
-			addMixinConfig("minepkg-companion.common.mixins.json");
-		}
-	}
+			try (Reader reader = Files.newBufferedReader(fileSystem.getPath(mixinConfig))) {
+				Map<String, Object> config = new Gson().fromJson(reader, TypeToken.getParameterized(Map.class, String.class, Object.class).getType());
 
-	private static void addMixinConfig(String configFile) {
-		GlueMixinPlugin.LOGGER.debug("{}", configFile);
-		Mixins.addConfiguration(configFile);
+				String compatibilityLevel = (String) config.get("compatibilityLevel");
+				int javaVersion = Integer.parseInt(compatibilityLevel.substring("JAVA_".length()));
+
+				boolean shouldAdd = testJava(">=" + javaVersion);
+
+				GlueMixinPlugin.LOGGER.debug("{} config {} (Java >= {})", shouldAdd ? "adding  " : "skipping", mixinConfig, javaVersion);
+
+				if (shouldAdd) {
+					Mixins.addConfiguration(mixinConfig);
+				}
+			} catch (Exception e) {
+				throw new AssertionError("couldn't parse mixin config " + mixinConfig, e);
+			}
+		}
 	}
 }

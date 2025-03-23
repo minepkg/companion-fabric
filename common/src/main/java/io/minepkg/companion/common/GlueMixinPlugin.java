@@ -73,7 +73,6 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 					asList("MixinClientQueryResponseS2CPacket", "MixinServerQueryResponseS2CPacket", "ServerMetadataDeserializerMixin").contains(mixinName)) {
 					shouldApply = testMinecraft("~1.16");
 				}
-
 				break;
 			case "mc1_17":
 				if (asList("MixinClientTitleScreen").contains(mixinName)) {
