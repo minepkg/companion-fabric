@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
+@SuppressWarnings("SameParameterValue")
 public class MinepkgCompanion implements ModInitializer {
 	public static final String MOD_ID = "minepkg-companion";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -25,12 +26,23 @@ public class MinepkgCompanion implements ModInitializer {
 
 	@Override
 	public void onInitialize () {
-		// note: this needs to be set before common1_19_4's MinepkgCompanion.init()
 		INSTANCE = this;
 
 		if (GlueMixinPlugin.testMinecraft("<1.19.4")) {
-			LOGGER.info("minepkg companion for Minecraft < 1.19.4 ready");
 			versionSetter = ServerMetadata::setVersion;
+		} else {
+			callMinepkgCompanionInit("common1_19_4");
+		}
+
+		LOGGER.info("minepkg companion ready");
+	}
+
+	private static void callMinepkgCompanionInit(String project) {
+		// workaround for not being able to directly call e.g. common1_19_4's MinepkgCompanion.init() due to cyclic project dependencies
+		try {
+			Class.forName(String.format("io.minepkg.companion.%s.MinepkgCompanion", project)).getMethod("init").invoke(null);
+		} catch (Exception e) {
+			throw new AssertionError(e);
 		}
 	}
 

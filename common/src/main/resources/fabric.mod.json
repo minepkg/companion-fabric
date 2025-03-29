@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "io.minepkg.companion.common.MinepkgCompanion"
+    ],
+    "preLaunch": [
+      "io.minepkg.companion.common.GluePreLaunch"
     ]
   },
   "mixins": [

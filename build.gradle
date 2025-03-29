@@ -1,12 +1,19 @@
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT' apply false
-	id 'glue' version '0.0.6'
+	id 'glue' version '0.0.7'
 }
 
 glue {
 	targets = [
-		'common', '1_17', '1_19', 'common1_19_4', '1_19_4', '1_20', '1_20_3', '1_20_5'
+		'common', '1_16', '1_17', '1_19', 'common1_19_4', '1_19_4', '1_20', '1_20_3', '1_20_5'
 	]
+
+	// move mixin configs to custom block, so GluePreLaunch can load them automatically for appropriate Java versions
+	transform('fabric.mod.json') {
+		println 'moving "mixins" to "custom/glue/mixins"'
+		def mixins = it.remove('mixins')
+		it.withDefault { [:] } ['custom'].withDefault { [:] } ['glue']['mixins'] = mixins
+	}
 }
 
 subprojects {
@@ -36,7 +43,7 @@ subprojects {
 		def toExpand = [
 			'project': project.name,
 			version: project.version,
-			min_java_version: project.min_java_version
+			java_version: project.java_version
 		]
 
 		inputs.properties toExpand

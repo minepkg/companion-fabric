@@ -16,9 +16,9 @@ To build and test this mod, use the following workflow:
 
 To test joining a server locally:
 
-1. Set the environment variable: `export MINEPKG_COMPANION_PLAY=server://localhost`
-2. Start a server using: `minepkg launch --minepkgCompanion none --server -a`
-3. In a separate terminal, join the server with the client using: `minepkg launch --minepkgCompanion none` *(note: both sessions need to run the same Minecraft version)*
+1. Start a server using: `minepkg launch --minepkgCompanion none --server -a`
+2. In a separate terminal, set the environment variable: `export MINEPKG_COMPANION_PLAY=server://localhost`
+3. Join the server with the client using: `minepkg launch --minepkgCompanion none` *(note: both sessions need to run the same Minecraft version)*
 
 ### Troubleshooting
 - Try building with `./gradlew clean build`
