@@ -99,7 +99,7 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 				}
 
 				if (asList("QueryResponseS2CPacketMixin").contains(mixinName)) {
-					shouldApply = testMinecraft(">=1.19.4-pre1") || testMinecraft("23w07a");
+					shouldApply = testMinecraft(">=1.19.4-pre1 <1.20.5") || testMinecraft("23w07a");
 				}
 				break;
 			case "mc1_20":
@@ -118,6 +118,10 @@ public class GlueMixinPlugin implements IMixinConfigPlugin {
 				break;
 			case "mc1_20_5":
 				if (asList("MixinClientTitleScreen").contains(mixinName)) {
+					shouldApply = testMinecraft(">=1.20.5");
+				}
+
+				if (asList("QueryResponseS2CPacketMixin").contains(mixinName)) {
 					shouldApply = testMinecraft(">=1.20.5");
 				}
 				break;

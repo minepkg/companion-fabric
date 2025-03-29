@@ -3,6 +3,9 @@
   "package": "io.minepkg.companion.mc1_20_5.mixin",
   "compatibilityLevel": "JAVA_${java_version}",
   "plugin": "io.minepkg.companion.common.GlueMixinPlugin",
+  "mixins": [
+    "QueryResponseS2CPacketMixin"
+  ],
   "client": [
     "MixinClientTitleScreen"
   ],
