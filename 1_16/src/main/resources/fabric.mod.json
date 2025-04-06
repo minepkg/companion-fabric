@@ -3,6 +3,6 @@
   "id": "minepkg-companion",
   "version": "${version}",
   "mixins": [
-    "minepkg-companion.common1_19_4.mixins.json"
+    "minepkg-companion.1_16.mixins.json"
   ]
 }

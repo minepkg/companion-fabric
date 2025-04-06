@@ -1,8 +1,13 @@
 {
   "required": true,
-  "package": "io.minepkg.companion.mc1_20.mixin",
+  "package": "io.minepkg.companion.mc1_16.mixin",
   "compatibilityLevel": "JAVA_${java_version}",
   "plugin": "io.minepkg.companion.common.GlueMixinPlugin",
+  "mixins": [
+    "MixinClientQueryResponseS2CPacket",
+    "MixinServerQueryResponseS2CPacket",
+    "ServerMetadataDeserializerMixin"
+  ],
   "client": [
     "MixinClientTitleScreen"
   ],
